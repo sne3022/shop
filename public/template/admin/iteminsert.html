@@ -1,0 +1,45 @@
+  <!-- item insert -->
+  <div class="admin_right item-add" layout="column">
+  	  <md-content layout-padding>
+
+	     <md-input-container class="md-block">
+	      <label class="md-label">상품명</label>
+	      <input ng-model="item.p_title">
+	     </md-input-container>
+
+	     <md-input-container class="md-block" style="width:150px">
+	      <label class="md-label">상품가격</label>
+	      <input ng-model="item.p_price" type="number">
+	     </md-input-container>
+
+	     <md-input-container class="md-block" style="width:150px">
+	      <label class="md-label">상품수량</label>
+	      <input ng-model="item.p_quantity" type="number">
+	     </md-input-container>
+	  </md-content>
+
+     <md-content layout-padding>
+      <p style="font-weight: 900">&nbsp;상품 이미지</p>
+      <fileupload></fileupload>
+    </md-content>
+
+    <md-content layout-padding>
+    	<p style="font-weight: 900">&nbsp;상품설명</p>
+     <textarea id="contents" ng-model="item.p_contents"></textarea> 
+     
+    </md-content>
+
+    <md-content layout-padding>
+  		<p style="font-weight: 900">&nbsp;상품표시상태</p>
+  		<md-radio-group ng-model="p_status">
+  	      <md-radio-button value="y" ng-click="dd()">진열함</md-radio-button>
+  	      <md-radio-button value="n">진열안함</md-radio-button>
+
+      </md-radio-group>
+    </md-content>
+
+    <md-content layout-padding layout-align="center center" layout="column">
+		<md-button class="md-raised md-primary" ng-click="itemInsert()">상품등록</md-button>
+    </md-content>
+  </div>
+  <!-- end-->

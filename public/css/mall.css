@@ -1,0 +1,283 @@
+*{
+padding:0;
+margin: 0;
+list-style: none;	
+}
+
+.mall_list{
+	margin: auto;
+	width:1080px;
+	height:500px;
+}
+.mall_list ul{
+	padding-left:8%;
+}
+.mall_list li{
+	width:320px;
+	height:420px;
+	float:left;
+	position: relative;
+}
+.mall_list li img{
+	border:1px solid #d6d6d6;
+}
+
+.list-title{
+	color:#333; 
+	width:255px;
+	height:300px;
+	top:0; 
+	text-align:center;
+	position: absolute;
+	background: #000;
+	color:white;
+	opacity: 0.8;
+	display: none;
+	vertical-align: middle;
+}
+
+.active-a{
+	border:1px solid #0073e9;
+}
+
+.item_detail{
+	width:1000px;
+	height:500px;
+	border:5px solid blue;
+}
+
+.detail_img{
+	width:400px;
+	height:200px;
+	background: red;
+}
+
+.imgArea{
+	width:60%; height:600px; float:left;
+	overflow: hidden;
+}
+
+.bigImg{
+
+	width:660px; 
+	height:450px;
+	text-align: center;
+}
+
+.bigImg img{
+	vertical-align: middle;
+	max-width:660px; 
+	max-height: 440px;
+}
+
+.smallImg{
+	margin-top: 10px;
+	padding-left:30px;
+	max-width:630px; height:90px;
+
+}
+
+.smallImg img{
+	border: 1px solid #eee;
+}
+.smallImg ul{
+	text-align: center;
+}
+
+.smallImg ul li{
+display: inline;
+}
+
+.contents{
+	float:left; width:30%;
+	margin-bottom: 100px;
+}
+
+.contents ul li{
+	height:60px;
+}
+
+
+.quantity{
+	padding-top:5px;
+	display: block;
+	position: relative;
+}
+#quantity{
+	width: 34px;
+    height: 25px;
+    padding: 0 2px 0 3px;
+    line-height: 23px;
+    border: 1px solid #d4d8d9;
+    border-radius: 3px 0 0 3px;
+}
+
+.quantity_cal{
+	padding-left:100px;
+}
+
+.btn_up{
+	cursor: pointer;
+	position: absolute;
+    left: 33px;
+    top: 35px;
+}
+.btn_down{
+	cursor: pointer;
+	position: absolute;
+    left: 33px;
+    top: 47px;
+}
+
+.pocket_quantity .btn_up{
+	left: 33px;
+    top: 0px;
+}
+
+.pocket_quantity .btn_down{
+	left: 33px;
+    top: 12px;
+}
+
+
+.pagin{
+	clear:both;
+	width:90%; margin:auto; text-align: center;
+}
+
+.btn_buy{
+	margin-top: 15px;
+}
+.btn_buy .md-raised{
+	margin:0;
+	width:320px;
+	margin-bottom: 10px;
+} 
+
+.description{
+	clear:both; width:100%; 
+	text-align: center;
+	line-height: 5;
+}
+
+
+/* 장바구니 */
+.pocket{
+	margin: auto;
+	width:1080px;
+	height:500px;
+}
+
+.pocket ul li{
+	float:left;
+}
+
+.pocket_list th{
+	padding:11px 0 9px;
+	text-align: center;
+}
+
+.list_name{
+	border-top:1px solid #eee;
+	border-left:1px solid #eee;
+	border-bottom: 1px solid #eee;
+	background: #fbfafa;
+}
+
+.list_name>th{
+	border-right:1px solid #eee;
+}
+
+.list_value{
+	border-left:1px solid #eee;
+	border-bottom:1px solid #eee;
+}
+.list_value>th:last-child{
+	border-right:1px solid #eee;
+}
+
+.list_value>th>a{
+	color:rgb(51, 51, 51);
+	text-decoration: none;
+	cursor: pointer;	
+}
+
+.pocket_quantity{
+	margin-left: 20px;
+	display: block;
+	width:40px;
+	position: relative;
+}
+
+.pocket_status{
+	background:#999; width:100%; height:50px;
+	padding-left:15px;
+}
+.status_font{
+	line-height: 2.2;
+	font-size:24px;
+	color:white;
+}
+
+
+/* 관리자 */
+.admin_left{
+	border-right: 1px solid #eee;
+	background: #f6f6f6;
+}
+
+.admin_left div{
+	width:100%; 
+	cursor:pointer;
+	outline: none;
+}
+
+.active-div{
+	background: #bbb;
+}
+
+.admin_left li{
+	text-align: center;
+	height:50px;
+	line-height: 3.5;
+}
+
+.manage-title{
+	border-right:1px solid #eee;
+	border-bottom: 1px solid #eee;
+	font-size: 14px;
+	font-weight: 500;
+}
+
+.manage-title-wrap{
+	text-align:center; 
+	background: #fbfafa; 
+	height:40px;
+}
+.manage-title-value{
+	text-align: center;
+	border-bottom:1px solid #eee;
+}
+.md-btn{
+	width:95%;
+	height:50px; 
+	font-size:20px;
+	font-weight: normal;	
+	background: #eee;
+	border-bottom:1px solid #eee;
+}
+
+.img_fileupload{
+	width:200px; height:200px; background:#000;
+	opacity: 0.7;
+	text-align: center;
+	line-height:13;
+}
+
+md-checkbox .md-icon {
+    background: #none;
+}
+
+.md-label{
+	font-size:15px;
+}

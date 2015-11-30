@@ -1,0 +1,75 @@
+<style>
+.filediv .btn{
+   font-size:12px;
+
+}
+.imglist{
+  padding:10px;
+}
+.progress{
+  cursor: 
+   border:none;
+  background: none;
+  height:5px;
+  color:black;
+   margin-bottom:5px;
+}
+#file{
+
+}
+.progress-bar-success{
+  background-color: black;
+  height:2px;
+}
+
+.fabSpeedDialdemoBasicUsage .text-capitalize {
+  text-transform: capitalize; }
+.fabSpeedDialdemoBasicUsage .md-fab:hover, .fabSpeedDialdemoBasicUsage .md-fab.md-focused {
+  background-color: #000 !important; }
+.fabSpeedDialdemoBasicUsage p.note {
+  font-size: 1.2rem; }
+.fabSpeedDialdemoBasicUsage .lock-size {
+  min-width: 300px;
+  min-height: 300px;
+  width: 300px;
+  height: 300px;
+  margin-left: auto;
+  margin-right: auto; }
+</style>
+
+<div class=' filediv'  layout='row' layout-wrap flex='100' layout-align='start center' >
+     <div id="file" type="file" ngf-select='fileselect($files)' style="cursor:pointer; margin-top:10px; margin-bottom:10px;"><img src='image/ic_file_upload_black_48dp_1x.png'>파일 업로드</div>
+     <div class='imglist' layout='row' layout-wrap flex='100' layout-align='start center'>
+
+      <div ng-repeat="list in info" class='img_list {%list.idx%} {%list.basesrc%}' style='width:180px; height:280px; margin:20px; cursor:pointer float:left;'>
+        <span style='height:22px; overflow:hidden; display:block; font:14px/1.5 Lato, "Helvetica Neue", Helvetica, Arial, sans-serif; color:#777; font-weight:300'>{%list.title%}</span>
+        
+        <img class='file_img' ng-src='{%list.basesrc%}' style="width:180px; height:180px; margin-bottom:5%;">
+
+        <div class='progress progress-striped active' style='border:none;'>
+          <div class='progress-bar progress-bar-success' role='progressbar' aria-valuemin='0' aria-valuemax='100' style='width:100%;'></div>
+        </div>
+      
+        <md-button class='md-fab md-raised md-mini md-warn' aria-label='title' ng-click='sel_title($event, list.basesrc)' ng-if='list.basesrc == list.main && list.btn == "yes"'>
+            <md-icon md-svg-src='image/ic_desktop_windows_black_48px.svg'></md-icon>
+            <md-tooltip md-direction='bottom'>타이틀 지정</md-tooltip>
+        </md-button>
+
+        <md-button class='md-fab md-raised md-mini' aria-label='title' ng-click='sel_title($event, list.basesrc)' ng-if='list.basesrc != list.main && list.btn == "yes"'>
+            <md-icon md-svg-src='image/ic_desktop_windows_black_48px.svg'></md-icon>
+            <md-tooltip md-direction='bottom'>타이틀 지정</md-tooltip>
+        </md-button>
+
+        <md-button class='md-fab md-raised md-mini' aria-label='insert' ng-click='sel_insert($event)'  ng-if='list.btn == "yes"'>
+            <md-icon md-svg-src='image/ic_photo_black_24px.svg'></md-icon>
+            <md-tooltip md-direction='bottom'>본문 삽입</md-tooltip>
+        </md-button>
+
+        <md-button class='md-fab md-raised md-mini' aria-label='delete' ng-click='sel_delete($event)'>
+            <md-icon md-svg-src='image/ic_delete_black_48px.svg'></md-icon>
+            <md-tooltip md-direction='bottom'>이미지 삭제</md-tooltip>
+        </md-button>
+      </div>
+     </div>
+</div>
+

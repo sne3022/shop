@@ -1,0 +1,59 @@
+<div class="pocket">
+	<i class="material-icons" style="font-size:60px;">shopping_cart</i>
+	<hr style="margin-top:0px">
+
+	<div class="pocket_status">
+		<span class="status_font">상품({%number%})</span>
+	</div>
+	<table class="pocket_list">
+		<tr class="list_name"> <!-- 상품 제목 -->
+			<th width="50px">
+				<md-checkbox ng-model="selectedAll" ng-change="allCheck()" style="margin-left:17px;" aria-label=' '>
+        		</md-checkbox>
+			</th>
+			<th width="100px">상품코드</th>
+			<th width="110px">이미지</th>
+			<th width="300px">상품정보</th>
+			<th width="100px">판매가</th>
+			<th width="100px">수량</th>
+			<th width="100px">합계</th>
+			<th width="215px">선택</th>
+		</tr>
+
+		<tr class="list_value" ng-repeat="item in pocketList track by $index"> <!--상품정보 -->
+			<th>
+				<md-checkbox ng-model="item.selected" aria-label=' 'style="margin-left:17px;">
+        		</md-checkbox>
+        	</th>
+        	<th id="{%item.idx%}">{%item.code%}</th>
+			<th><img ng-src="{%item.img%}" style="height:90px; cursor:pointer;" ng-click="selectedDetail()"></th>
+			<th><a ng-click="selectedDetail()"> {%item.title%} <br><span style="color:red">{%item.option%}</span></a></th>
+			<th>{%item.origin_price%}원</th>
+			<th>
+				    <span class="pocket_quantity">
+		              <input id="quantity" type="text" ng-model="item.total_quantity" readonly="true">
+		              <img ng-src="../public/image/btn_up.gif" class="btn_up" ng-click="quantityUp(item)">
+		              <img ng-src="../public/image/btn_down.gif" class="btn_down" ng-click="quantityDown(item)">
+	                </span>
+			</th>
+			<th>{%item.total_price%}원</th>
+			<th>
+				<md-button class="md-raised md-primary" aria-label=' '>주문하기</md-button>
+				<md-button class="md-raised" ng-click="selectedDelete(item)" aria-label=' '>삭제</md-button>		
+			</th>
+		</tr>
+ 		<tr> 
+			<th colspan="10" style="background: #f6f6f6; border: 1px solid #eee">총 상품구매금액 = <span>{%price%}원</span></th>
+		</tr>
+	</table>
+	<div layout="row">
+		<div flex="60" layout-align="end end" layout="row">
+			<md-button class="md-raised" aria-label=' '>전체상품주문</md-button>
+			<md-button class="md-raised" aria-label=' '>선택상품주문</md-button>
+		</div>
+		<div flex="40" layout-align="end end" layout="row">
+			<md-button class="md-raised" ng-click="allDelete()" aria-label=' '>장바구니 비우기</md-button>
+			<md-button class="md-raised md-warn" ng-click="itemList()" aria-label=' '>쇼핑계속하기</md-button>
+		</div>	
+	</div>
+</div>

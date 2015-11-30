@@ -1,0 +1,97 @@
+<!-- item list -->
+  <div class="admin_right item-manage">
+    <!-- item name -->
+    <div layout="row" flex="100" layout-wrap style="background: #fbfafa;">
+      <div flex="10" layout-align="center center" layout="row" class="manage-title">
+        <md-checkbox ng-model="selectedAll" ng-change="allCheck()" aria-label=" ">
+        </md-checkbox>
+      </div>
+      <div flex="10" layout-align="center center" layout="row" class="manage-title">번호</div>
+      <div flex="15" layout-align="center center" layout="row" class="manage-title">상품코드</div>
+      <div flex="40" layout-align="center center" layout="row" class="manage-title">상품명</div>
+      <div flex="15" layout-align="center center" layout="row" class="manage-title">판매가</div>
+      <div flex="10" layout-align="center center" layout="row" class="manage-title">수량</div> 
+    </div>
+    <!-- end -->
+
+    <!-- item value -->
+    <div id="{%item.p_code%}" layout="row" flex="100" ng-repeat="item in totalItems" class="manage-title-value" layout-wrap>
+      <div flex="10" layout-align="center center" layout="row">
+        <md-checkbox class="md-check" id="{%item.p_code%}" ng-model="item.selected" ng-click="checkModule(item)" aria-label=" ">
+        </md-checkbox>
+      </div>
+      <div flex="10" layout-align="center center" layout="row"><h4>{%item.p_idx%}</h4></div>
+      <div flex="15" layout-align="center center" layout="row"><h4>{%item.p_code%}</h4></div>
+      <div flex="40" layout-align="center center" layout="row">
+        <md-list-item class="md-4-line" >
+            <img ng-src="{%item.p_big_img%}" class="md-avatar" style="width:60px; height:60px;"/>
+            <div class="md-list-item-text" layout="column" style="color:black; padding-top: 12px;">
+              <p>{%item.p_title%}
+                <md-menu>
+                <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)"> 
+                  <i class="material-icons">border_color</i>
+                </md-button>
+                <md-menu-content width="2">
+                  <md-menu-item>
+                    <md-button ng-click="itemEdit(item)">
+                     <i class="material-icons">gavel</i>
+                      기본 편집
+                    </md-button>
+                  </md-menu-item>
+
+                  <md-menu-item>
+                    <md-button ng-click="optionInsert($event,item)">
+                      <i class="material-icons">add</i>
+                      옵션추가
+                    </md-button>
+                  </md-menu-item>
+
+                  <md-menu-item>
+                    <md-button ng-click="optionModify($event,item)">
+                      <i class="material-icons">content_cut</i>
+                      옵션편집
+                    </md-button>
+                  </md-menu-item>
+
+                  <md-menu-item>
+                    <md-button ng-click="optionDrop($event,item)">
+                      <i class="material-icons">archive</i>
+                      옵션드롭
+                    </md-button>
+                  </md-menu-item>
+              
+                </md-menu-content>
+              </md-menu>            
+              </p>
+            </div> 
+        </md-list-item>
+      </div>
+      <div flex="15" layout-align="center center" layout="row"><h4>{%item.p_price%}원</h4></div>
+      <div flex="10" layout-align="center center" layout="row"><h4>{%item.p_quantity%}</h4></div> 
+    </div>
+    <!-- end -->
+
+
+    <!-- pagination -->
+    <div layout-align="center center" layout="row">
+      <pagination total-items="totalItemNumber" ng-model="currentPage"
+          items-per-page="itemperpage" ng-change="pageChanged()">
+      </pagination>
+    </div>
+    <!-- end -->
+
+    <!--button -->
+    <div layout="row">
+      <div flex="10" layout-align="center center" layout="row">
+      <md-button class="md-raised md-primary" ng-click="seletedDelete()">삭제</md-button>
+      </div>
+      <div flex="20">
+        <div layout="column" layout-align="center center" layout="row">
+          <md-select placeholder="아이템 수" ng-model="ItemNumber" md-on-close="loadItems()" style="min-width: 200px;">
+            <md-option ng-repeat="item in ItemNumbers" value="{%item%}">{%item%}</md-option>
+          </md-select>
+        </div>
+      </div>
+    </div>
+    <!--button -->
+  </div> <!-- item list end -->

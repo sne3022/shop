@@ -1,0 +1,30 @@
+<div class="mall_list">
+	<ul>
+		<li ng-repeat="item in totalItems track by $index">
+		    <a href="#/detail/{%item.p_code%}" ng-click="detail(item.p_code)" 
+		    ng-mouseenter="mouseenter($event)" ng-mouseleave="mouseleave($event)" id="{%item.p_code%}"> 
+		     <img ng-src="{%item.p_big_img%}" width="255px" height="300px" ><br>
+		     <div class="list-title {%item.p_code%}">
+		     	<div style="margin-top:130px">
+					<span>{%item.p_title%}<br></span>
+					<span class="price">{%item.p_price%}</span>원
+				</div>
+			</div>
+			</a>
+		</li>	
+	</ul>
+</div>
+<div class="pagin">
+	<pagination total-items="totalItemNumber" ng-model="currentPage"
+			items-per-page="itemperpage" ng-change="pageChanged()">
+	</pagination>
+</div>
+
+<div layout="row" layout-sm="column" layout-align="center" layout-wrap>
+	<md-button class="md-raised md-warn" ng-click="pocketList()">장바구니로 이동</md-button>
+</div>
+
+
+
+
+
