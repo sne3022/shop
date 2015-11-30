@@ -1,5 +1,5 @@
 var mallApp = angular.module("MallApp", ["ngRoute",'mallController', "MallService" ,"ngMaterial"]);
-mallApp.constant('baseUrl', '/laravel/public/');
+mallApp.constant('baseUrl', '/shop/public/');
 
 /* config -> 환경설정. routeProvide */
 mallApp.config(['$routeProvider', "baseUrl", routeProvide]);
