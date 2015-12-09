@@ -1,49 +1,55 @@
-<div class="detail_wrap" style="width:1080px; margin:auto;">
+<div class="detail_wrap">
+
   <div class="imgArea">
-  	<div class="bigImg">
-  		  <img ng-src="{%bImg%}" width="350px">
+    <div class="bigImg">
+  		  <img ng-src="{%bImg%}">
   	</div>
   	<div class="smallImg">
   		<ul>
   			<li ng-repeat="listImg in sImg track by $index">
-  				<img class="sImg" ng-src="{%listImg%}" width="67px" height="80px" ng-mouseenter="imgChange(listImg)">
+  				<img class="sImg" ng-src="{%listImg%}"  ng-mouseenter="imgChange(listImg)">
   			</li>
   		</ul>
   	</div>
   </div>
 
   <div class="contents"> <!-- 타이틀 가격 -->
-    
     <div ng-if="optionList==''"> <!--옵션을 넣지 않을경우 기본 틀 제공 -->
       <ul class="content-product-title"> 
         <li>
-          <h4 style="font-weight:bold;">상품명</h4>
+          <span class="contents_txt">TITLE</span>
           <div class="content">
             &nbsp;&nbsp; {%title%}
           </div>
         </li>
         <li>
-          <h4 style="font-weight:bold;">가격</h4>
-          <div class="content">
+          <span class="contents_txt">PRICE</span>
+          <div class="content-price">
             &nbsp;&nbsp; {%origin_price%}원
           </div>
         </li>
         <li>
-          <h4 style="font-weight:bold;">수량</h4>
-          <div class="content" style="padding-left:5px;"> 
+          <span class="contents_txt">QUANTITY</span>
+          <div class="content-p-quantity"> 
                <span class="quantity">
-                <p class="quantity_txt" style="color:red"></p>
+                <p></p>
                 <input id="quantity" type="text" ng-model="quantity" readonly="true">
-                <img ng-src="../public/image/btn_up.gif" class="btn_up" ng-click="quantityUp(p_price)" style="top:15px">
-                <img ng-src="../public/image/btn_down.gif" class="btn_down" ng-click="quantityDown(p_price)" style="top:27px">
+                <img ng-src="../public/image/btn_up.gif" class="p_btn_up" ng-click="quantityUp(p_price)">
+                <img ng-src="../public/image/btn_down.gif" class="p_btn_down" ng-click="quantityDown(p_price)">
                 <span class="quantity_cal">{%p_price%}원</span>
               </span> 
             </div>
         </li>
 
-        <li class="btn_buy">
-          <md-button class="md-raised md-primary" ng-click="nowBuy()">지금 구매하기</md-button><br>
-          <md-button class="md-raised" ng-click="shoppingBasket(code,title,p_price,quantity,bImg,'product')">장바구니 담기</md-button>
+        <li class="btn-set" layout="column">
+          <div flex="100" layout="row">
+          <md-button flex="47.5" class="md-raised btn" ng-click="wishList()">관심상품</md-button>
+          <span flex="5"> </span>
+          <md-button flex="47.5" class="md-raised btn" ng-click="shoppingBasket(code,title,p_price,quantity,bImg,'product')">장바구니</md-button>
+          </div>
+          <div flex="100" layout="row">
+          <md-button flex class="md-raised btn-buy" ng-click="nowBuy()">구매하기</md-button>
+          </div>
         </li>
       </ul>
     </div>
@@ -51,7 +57,7 @@
     <div class="content-option" ng-if="optionList!=''"> <!-- 옵션을 넣었을경우 새로운 틀 제공-->
       <ul ng-repeat="option in optionList track by $index" class="content-option-title">
         <li>
-          <h4 style="font-weight:bold;">{%option.o_field_name_txt%}</h4>
+          <span class="contents_txt">{%option.o_field_name_txt%}</span>
           <div class="content">
             &nbsp;&nbsp; {%option.o_value%}
           </div>
@@ -59,7 +65,7 @@
       </ul>
       <ul ng-repeat="option in selectedOption track by $index" class="content-select">
         <li>
-          <h4 style="font-weight:bold;">{%option.o_field_name_txt%}</h4>
+          <span class="contents_txt">{%option.o_field_name_txt%}</span>
           <div class="content">
              <md-input-container flex>
               <md-select ng-model="user[$index].optionSelected" placeholder="옵션을 입력을하세요." ng-change="showQuantity(user[$index].optionSelected)">
@@ -73,9 +79,9 @@
       </ul>
       <ul class="content-btn">
         <li>
-            <div class="content" style="padding-left:5px; border:1px solid #999; width:320px; height:70px; border-radius: 7px;"> 
-               <span class="quantity" style="display:none">
-                <p class="quantity_txt" style="color:red"></p>
+            <div class="content-o-quantity"> 
+               <span class="quantity o-quantity" style="display: none">
+                <p class="quantity_txt"></p>
                 <input id="quantity" type="text" ng-model="quantity" readonly="true">
                 <img ng-src="../public/image/btn_up.gif" class="btn_up" ng-click="quantityUp(o_price)">
                 <img ng-src="../public/image/btn_down.gif" class="btn_down" ng-click="quantityDown(o_price)">
@@ -83,16 +89,26 @@
               </span> 
             </div>
         </li>
-
-        <li class="btn_buy">
-          <md-button class="md-raised md-primary" ng-click="nowBuy()">지금 구매하기</md-button><br>
-          <md-button class="md-raised" ng-click="shoppingBasket(code,title,o_price,quantity,bImg,'option')">장바구니 담기</md-button>
+        <li>
+          <div class="totalMoney">
+          <span class="contents_txt">총 상품금액: {%o_totalMoney%}원</span>
+          </div>
+        </li>
+        <li class="btn-set" flex="100" layout='column'>
+          <div flex="100" layout="row">
+          <md-button flex="47.5" class="md-raised btn" ng-click="wishList()">관심상품</md-button>
+          <span flex="5"> </span>
+          <md-button flex="47.5" class="md-raised btn" ng-click="shoppingBasket(code,title,o_price,quantity,bImg,'option')">장바구니</md-button>
+          </div>
+          <div flex="100" layout="row">
+          <md-button flex class="md-raised btn-buy" ng-click="nowBuy()">구매하기</md-button>
+          </div>
         </li>
       </ul>   
     </div>
-
-
   </div>
+
+
   <div class="description" data-ng-bind-html="trustAsHtml(contents)">
   </div>
 

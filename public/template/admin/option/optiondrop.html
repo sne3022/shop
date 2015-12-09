@@ -1,54 +1,50 @@
 <md-dialog>
     <md-toolbar>
       <div class="md-toolbar-tools">
-        <h2><i class="material-icons" style="font-size:55px">reorder</i></h2>
+        <h2><i class="material-icons drop-dialog-first-icon">reorder</i></h2>
         <span flex></span>
         <md-button class="md-icon-button" ng-click="cancel()" >
-          <i class="material-icons" style="font-size:50px">clear</i>
+          <i class="material-icons drop-dialog-second-icon">clear</i>
         </md-button>
       </div>
     </md-toolbar>
 
-    <md-dialog-content style="width:800px; height:500px;">
-    	<div class="md-dialog-content">
+    <md-dialog-content>
+    	<div class="md-dialog-content drop-dialog-content">
     		<ul>
     		<li>
     			<md-content layout layout-sm="column">
             <md-input-container>
                <h4>코드</h4> 
-               <span style="color:rgb(63,81,181)">{%option.o_code%}</span>
+               <span class="drop-dialog-content-code">{%option.o_code%}</span>
             </md-input-container>
           </md-content>     
 	    			<md-input-container flex>
-	    				<h4>옵션박스 구분</h4>
+	    				<h4>옵션 구분</h4>
 	    				<input ng-model="option.o_field_name_txt" aria-label=" ">
 	    			</md-input-container>
 	    			<md-input-container flex="30">
-	    				<h4>옵션 가격</h4>
+	    				<h4>가격</h4>
               <input ng-model="option.o_value" aria-label=" " type="number">
 	    			</md-input-container>
     		</li>
 
         <li class="add_input">
             <md-input-container flex="30">
-                  <h4>옵션 값</h4>
+                  <h4>값</h4>
               <input class="option_number" aria-label=" ">
             </md-input-container>
         </li>
 
-        <li layout="row" flex="30" layout-align="center center">
+        <li layout="row" flex="100" layout-align="start center">
           <md-button ng-click="add()" class="md-raised md-primary">추가</md-button>
+          <span flex></span>
+          <md-button ng-click="cancel()" class="md-raised">취소
+          </md-button>
+          <md-button ng-click="insert()" class="md-raised">추가
+          </md-button>
         </li>
     		</ul>	
     	</div>
     </md-dialog-contents>
-
-	<md-dialog-actions layout="row">
-   		<span flex></span>
-   		<md-button ng-click="cancel()" class="md-raised">취소
-   		</md-button>
-   		<md-button ng-click="insert()" class="md-raised">추가
-   		</md-button>
-   	</md-dialog-actions>
-
 </md-dialog>

@@ -32,5 +32,6 @@ class ItemService implements IItem{
 	{
 		$list = item::where("p_code", $product_code)->first();
 		return $list;
-	}	
+	}
+
 }

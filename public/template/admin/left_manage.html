@@ -1,22 +1,23 @@
 
 <div layout="row" layout-wrap ng-controller="AdminCtrl">
   <div flex="100" style="background-color: rgb(63,81,181);">
-  	<div flex="20" layout="column" layout-align="start center"> 
+  	<div flex="15" layout="column" layout-align="start center"> 
   		<i class="material-icons" style="font-size:60px; color:white">store</i>
   	</div>
   </div>
 
   <!-- item left menu -->
-  <div class="admin_left" flex="20" layout="column" layout-align="start center">
+  <div class="admin_left" flex="15" layout="column" layout-align="start center">
       <md-button class="md-raised md-btn" ng-click="control(1)">상품등록</md-button>
 
       <md-button class="md-raised md-btn" ng-click="control(2)">상품관리</md-button>
 
-      <md-button class="md-raised md-btn" ng-click="control(2)">상품설정</md-button>    
+      <md-button class="md-raised md-btn" ng-click="control(3)">상품설정</md-button>
+    
   </div>	  
   <!-- end -->
 
-  <div flex="80" layout="column">
+  <div flex="85" layout="column">
     <div ng-switch ="normal"> 
         <div ng-switch-when="insert">
           <item-insert></item-insert>
@@ -24,9 +25,13 @@
         <div ng-switch-when="manage">
           <item-manage></item-manage>
         </div>
+        <div ng-switch-when="setting">
+          <item-setting></item-setting>
+        </div>
         <div ng-switch-when="edit">
           <item-edit></item-edit>
         </div>
+        
      </div>
   </div>
 </div> 

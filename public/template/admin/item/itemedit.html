@@ -1,33 +1,33 @@
- <div class="itemEdit" layout="column">
+ <div class="item-edit" layout="column">
           <md-content layout-padding>
-           <md-input-container class="md-block">
+           <md-input-container class="edit_product_name">
             <label class="md-label">상품명</label>
             <input ng-model="itemList.p_title">
            </md-input-container>
 
-           <md-input-container class="md-block" style="width:150px">
+           <md-input-container class="edit_product_price">
             <label class="md-label">상품가격</label>
             <input ng-model="itemList.p_price" type="number">
            </md-input-container>
 
-           <md-input-container class="md-block" style="width:150px">
+           <md-input-container class="edit_product_quantity">
             <label class="md-label">상품수량</label>
             <input ng-model="itemList.p_quantity" type="number">
            </md-input-container>
           </md-content>
 
            <md-content layout-padding>
-            <p style="font-weight: 900">&nbsp;상품 이미지</p>
+            <p>&nbsp;상품 이미지</p>
             <fileupload></fileupload> 
           </md-content> 
 
           <md-content layout-padding>
-            <p style="font-weight: 900">&nbsp;상품설명</p>
+            <p>&nbsp;상품설명</p>
             <textarea id="contents"></textarea> 
           </md-content>
 
           <md-content layout-padding>
-            <p style="font-weight: 900">&nbsp;상품표시상태</p>
+            <p>&nbsp;상품표시상태</p>
             <md-radio-group ng-model="itemList.p_status">
                 <md-radio-button value="y">진열함</md-radio-button>
                 <md-radio-button value="n">진열안함</md-radio-button> 

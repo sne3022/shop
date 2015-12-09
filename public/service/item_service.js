@@ -13,7 +13,7 @@ mallService.factory('mallfactory', function($resource, baseUrl){
 });
 
 /* data share (controller and controller) */
-mallService.factory('itemService', function(){
+mallService.factory('detailService', function(){
     var itemList = [];
     var count = 0;
     var addItem = function(obj)

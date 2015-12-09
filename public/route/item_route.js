@@ -1,4 +1,4 @@
-var mallApp = angular.module("MallApp", ["ngRoute",'mallController', "MallService" ,"ngMaterial"]);
+var mallApp = angular.module("MallApp", ["ngRoute",'mallController', "MallService", "ngMaterial"]);
 mallApp.constant('baseUrl', '/shop/public/');
 
 /* config -> 환경설정. routeProvide */
@@ -17,7 +17,7 @@ function routeProvide($routeProvider, baseUrl)
     	templateUrl: baseUrl+"template/user/shoppingback.html",
     	controller: "ItemShoppingbackController",
     }).when("/admin", {
-        templateUrl: baseUrl+"template/admin/write.html",
+        templateUrl: baseUrl+"template/admin/left_manage.html",
         controller: "AdminCtrl"
     }).
     otherwise({
@@ -31,7 +31,7 @@ function routeProvide($routeProvider, baseUrl)
 var mallService = angular.module("MallService", ["ngResource"]);
 /* 모듈명은 fileService 를 사용할수 있는 이유는 서비스에 등록 되어있어서.*/
 
-mallService.constant('baseUrl','/larvel/public/');
+mallService.constant('baseUrl','/shop/public/');
 mallService.$inject=["$resource","baseUrl"];
 
 mallService.factory('mallfactory', function($resource, baseUrl){
@@ -42,8 +42,8 @@ mallService.factory('mallfactory', function($resource, baseUrl){
     return resource;  //module/:id 에서 id 의 값에 따라  @id의 값이 결정된다.
 });
 
-/* data share (controller and controller) */
-mallService.factory('itemService', function(){
+/* data share (controller and controller) 상품 자세히보기 */
+mallService.factory('detailService', function(){
     var itemList = [];
     var count = 0;
     var addItem = function(obj)
@@ -68,6 +68,40 @@ mallService.factory('itemService', function(){
 
     return {
         getCount:getCount,
+        addItem:addItem,
+        getItems:getItems,
+        clear:clear
+    };
+});
+
+/* 최근 본상품 스크롤 서비스 */
+mallService.factory('listService', function(){
+    var itemList = [];
+    var addItem = function(obj)
+    {
+        if(itemList.length==0) //아이템이 없을때
+        {
+           itemList.push(obj);
+        }
+        else //아이템이 존재 할때
+        {   
+            itemList.push(obj);
+        }
+
+        
+    }
+
+    var getItems = function()
+    {
+        return itemList;
+    }
+
+    var clear = function()
+    {
+        itemList = [];
+    }
+
+    return {
         addItem:addItem,
         getItems:getItems,
         clear:clear

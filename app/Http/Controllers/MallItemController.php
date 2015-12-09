@@ -9,7 +9,9 @@ class MallItemController extends Controller{
 		$this->item = $item;
 	}
 
-	public function index(){ //전체 상품 보여주기
+	public function index()
+	{ //전체 상품 보여주기
+
 		return $this->item->ItemList();
 	}
 

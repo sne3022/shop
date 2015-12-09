@@ -11,7 +11,6 @@ class option extends Model
 		                        'o_value',
 		                        'o_select_box',
 		                        'o_order',
-		                        'o_other_status',
 		                        'o_all_status',
 		                        'o_type'
 	);

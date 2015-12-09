@@ -11,7 +11,7 @@ class MallOptionController extends Controller{
 	}
 
 	public function index()
-	{ //전체 상품 보여주기
+	{ 
 		return $this->option->OptionList();
 	}
 
@@ -33,7 +33,14 @@ class MallOptionController extends Controller{
 
 	public function destroy($id)//angular delete() -> 서버에 저장된 상품 삭제
 	{	
-		$this->option->OptionDelete($id);
+		if(Request::input('type')==1)
+		{
+			$this->option->OptionDelete($id);
+		}
+		else if(Request::input('type')==2)
+		{
+			$this->option->OptionMultipleDelete($id);
+		}
 	}
 
 }

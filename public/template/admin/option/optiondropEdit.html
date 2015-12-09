@@ -1,0 +1,79 @@
+<md-dialog>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2><i class="material-icons edit-dialog-first-icon">create</i></h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <i class="material-icons edit-dialog-second-icon">clear</i>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <!-- optontion modify --> 
+    <md-dialog-content>
+    	<div class="md-dialog-content edit-dialog-content">
+    		<ul ng-repeat="option in optionList track by $index | orderBy:orderProperty" >
+    		<li id="{%option.o_idx%}">
+    			<md-content layout layout-sm="column">
+    				<md-input-container>
+    					<h4>선택</h4>
+	    				<md-checkbox ng-model="option.selected" ng-change="checkModule(option)" aria-label=" ">
+	        		    </md-checkbox>
+        			</md-input-container>
+	    			
+		            <md-input-container class="order-font">
+		              <h4>순서</h4>
+		              <span>
+		              <p ng-click="orderChange(option.o_order,'up')"><img ng-src="image/btn_up.png"></p>
+		              <p>{%option.o_order%}</p>
+		              <p ng-click="orderChange(option.o_order,'down',$event)" ng-class="{'last':$last}"><img ng-src="image/btn_down.png"></p>
+		              </span>
+		            </md-input-container>
+
+		            <md-input-container flex>
+		              <h4 class='option-other-font'>옵션 구분</h4>
+		              <input ng-model="option.o_field_name_txt" aria-label=" ">  
+		            </md-input-container>
+
+					<md-input-container flex>
+						<h4 class='option-other-font'>가격</h4>
+						<input ng-model="option.o_value" aria-label=" ">
+					</md-input-container>
+
+					<md-input-container flex>
+						<h4 class='option-other-font'>옵션</h4>
+						<md-select ng-model="selectedOption" placeholder="옵션보기">
+							<md-option ng-repeat="state in optionList[$index].o_select_box track by $index">
+							{%state%}
+							</md-option>
+						</md-select>
+					</md-input-container>
+
+					<md-input-container>
+						<h4 class='option-other-font'>표시상태</h4>
+						<md-select ng-model="option.o_all_status" aria-label=" ">
+							<md-option value="y">Y
+							</md-option>
+							<md-option value="n">N
+							</md-option>
+						</md-select>
+					</md-input-container>
+				</md-content>
+    		</li>
+    		</ul>	
+    	</div>
+    </md-dialog-contents>
+    <!-- end --> 
+
+    <!-- button -->
+   	<md-dialog-actions layout="row">
+   		<md-button class="md-raised" ng-click="selectedDelete()">삭제
+   		</md-button>
+   		<span flex></span>
+   		<md-button class="md-raised" ng-click="cancel()">취소
+   		</md-button>
+   		<md-button class="md-raised" ng-click="update()">수정
+   		</md-button>
+   	</md-dialog-actions>
+    <!-- end -->
+</md-dialog>

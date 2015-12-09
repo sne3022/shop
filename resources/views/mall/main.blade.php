@@ -23,7 +23,7 @@
 
 <script src="{{url('bower_components/angular-bootstrap/ui-bootstrap-tpls.js')}}"></script>
 <script src="{{url('route/item_route.js')}}"></script>
-<script src="{{url('directive/item_directive.js')}}"></script>
+<script src="{{url('controller/item_controller.js')}}"></script>
 <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
 	
 </head>
