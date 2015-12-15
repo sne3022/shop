@@ -1,10 +1,10 @@
 {
   "name": "sneboard-shop",
   "version": "1.0.0",
-  "main":[],
-  "ignore": ["bootstrap","config","database","storage", "resources", "tests"],
+  "main":"",
+  "ignore": ["bootstrap",""],
   "dependencies": {},
-  "homepage": "",
+  "homepage": "https://github.com/angular/bower-angular",
   "_source": "git://github.com/sne3022/shop.git",
   "_target": "x",
   "_originalSource": "sneboard-shop"
