@@ -1,7 +1,7 @@
-<?php namespace App\Services;
+<?php namespace App\Services\Shop;
 
-use App\Models\item;
-use App\Contracts\IItem;
+use App\Models\Shop\item;
+use App\Contracts\Shop\IItem;
 class ItemService implements IItem{
 
 	public function ItemAdd($item)

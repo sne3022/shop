@@ -15,11 +15,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::controller("shop", "TestController");
-Route::resource("mall", "MallItemController");
-Route::resource("option", "MallOptionController");
 
-/* 파일업로드 */
-Route::controller('test', 'UploadController');
-Route::resource('upload', 'ModuleController');
 

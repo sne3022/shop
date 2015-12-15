@@ -43,9 +43,9 @@
                <span class="p-quantity">
                 <p></p>
                 <input id="quantity" type="text" ng-model="quantity" readonly="true">
-                <img ng-src="../public/image/btn_up.gif" class="p_btn_up" ng-click="quantityUp(p_price)">
-                <img ng-src="../public/image/btn_down.gif" class="p_btn_down" ng-click="quantityDown(p_price)">
-                <span class="quantity_cal">{%p_price%}원</span>
+                <img ng-src="../public/image/btn_up.gif" class="p_btn_up" ng-click="quantityUp(d_price)">
+                <img ng-src="../public/image/btn_down.gif" class="p_btn_down" ng-click="quantityDown(d_price)">
+                <span class="quantity_cal">{%d_price%}원</span>
               </span> 
         </li>
 
@@ -61,7 +61,7 @@
 
         <li>
           <div ng-if="optionUse!='y'" class="p_totalMoney">
-          <span class="contents_txt">총 상품금액: {%p_totalMoney%}원</span>
+          <span class="contents_txt">총 상품금액: {%d_totalMoney%}원</span>
           </div>
           <div ng-if="optionUse=='y'" class="totalMoney">
           <span class="contents_txt">총 상품금액: {%o_totalMoney%}원</span>
@@ -74,7 +74,7 @@
           <md-button flex="47.5" class="md-raised btn" ng-click="wishList()">관심상품</md-button>
           <span flex="5"></span>
 
-          <md-button flex="47.5" ng-if="optionUse!='y'" class="md-raised btn" ng-click="shoppingBasket(code,title,o_price,quantity,bImg,'product')">장바구니</md-button>
+          <md-button flex="47.5" ng-if="optionUse!='y'" class="md-raised btn" ng-click="shoppingBasket(code,title,d_price,quantity,bImg,'default')">장바구니</md-button>
           <md-button flex="47.5" ng-if="optionUse=='y'" class="md-raised btn" ng-click="shoppingBasket(code,title,o_price,quantity,bImg,'option')">장바구니</md-button>
 
           </div>

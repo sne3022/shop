@@ -1,4 +1,5 @@
-<?php namespace App\Http\Controllers;
+<?php namespace App\Http\Controllers\Shop;
+
 use App\Http\Controllers\Controller;
 class TestController extends Controller{
 

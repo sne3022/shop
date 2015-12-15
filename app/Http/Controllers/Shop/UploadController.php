@@ -1,10 +1,10 @@
-<?php namespace App\Http\Controllers;
+<?php namespace App\Http\Controllers\Shop;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Request;
 use Illuminate\Contracts\Auth\Guard;
-use App\Contracts\IFile;
+use App\Contracts\Shop\IFile;
 use Config;
 use File;
 

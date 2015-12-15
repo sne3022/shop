@@ -1,8 +1,8 @@
-<?php namespace App\Services;
+<?php namespace App\Services\Shop;
 
-use App\Contracts\IFile;
+use App\Contracts\Shop\IFile;
 use Request;
-use App\Models\fileupload;
+use App\Models\Shop\fileupload;
 use App\Http\Helpers\FileUploader;
 use Response;
 use File;

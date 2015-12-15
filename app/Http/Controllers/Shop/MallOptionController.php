@@ -1,6 +1,7 @@
-<?php namespace App\Http\Controllers;
+<?php namespace App\Http\Controllers\Shop;
+
 use App\Http\Controllers\Controller;
-use App\Contracts\IOption;
+use App\Contracts\Shop\IOption;
 use Request;
 class MallOptionController extends Controller{
 

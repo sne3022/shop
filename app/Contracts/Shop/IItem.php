@@ -1,4 +1,4 @@
-<? namespace App\Contracts;
+<? namespace App\Contracts\Shop;
 
 interface IItem{
 	public function ItemAdd($item);

@@ -23,17 +23,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-         $this->app->bind(
-            'App\Contracts\IItem',
-            'App\Services\ItemService'
-         );
-         $this->app->bind(
-            'App\Contracts\IOption',
-            'App\Services\OptionService'
-         );
-         $this->app->bind(
-            'App\Contracts\IFile',
-            'App\Services\FileUploadService'
-         );
+
     }
 }

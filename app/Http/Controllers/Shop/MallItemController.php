@@ -1,6 +1,7 @@
-<?php namespace App\Http\Controllers;
+<?php namespace App\Http\Controllers\Shop;
+
 use App\Http\Controllers\Controller;
-use App\Contracts\IItem;
+use App\Contracts\Shop\IItem;
 use Request;
 class MallItemController extends Controller{
 
