@@ -105,48 +105,27 @@ mall.controller("ItemDetailController", function($scope, $routeParams, mallfacto
     }
 
 
-    ItemRead();
-    function ItemRead()
-    {
-    	mallfactory.get({id:$routeParams.id}).$promise.then(function(result)
-		{					
-			$scope.item = result; //전체 상품 정보
-			$scope.idx = $scope.item.p_idx;// 상품 번호
-			$scope.code = $scope.item.p_code; //상품 코드
-			$scope.sImg = []; //작은 이미지 정보 담을 공간
-			$scope.bImg = $scope.item.p_big_img; //큰 이미지 정보
-			$scope.contents = $scope.item.p_contents; //상품 설명
-			$scope.quantity =1; //수량 초기값
-			$scope.totalQuantity = $scope.item.p_quantity; //상품 수량
+ 	var strArray = null;
+	mallfactory.get({id:$routeParams.id}).$promise.then(function(result)
+	{					
+		$scope.item = result; //전체 상품 정보
+		$scope.code = $scope.item.p_code; //상품 코드
+		$scope.sImg = []; //작은 이미지 정보 담을 공간
+		$scope.bImg = $scope.item.p_big_img; //큰 이미지 정보
+		$scope.contents = $scope.item.p_contents; //상품 설명
+		$scope.quantity =1; //수량 초기값
+		$scope.totalQuantity = $scope.item.p_quantity; //상품 수량
 
-			$scope.title = $scope.item.p_title; //상품 타이틀
-			$scope.o_price = $scope.item.p_price; //옵션 가격
-			$scope.p_price = $scope.item.p_price; //상품 가격
-			$scope.origin_price = $scope.item.p_price; //상품 기본 가격
+		$scope.title = $scope.item.p_title; //상품 타이틀
+		$scope.o_price = $scope.item.p_price; //옵션 가격
+		$scope.d_price = $scope.item.p_price; //상품 가격
+		$scope.p_totalMoney = $scope.item.p_price; //상품총가격 초기값
+		$scope.origin_price = $scope.item.p_price; //상품 기본 가격
 
-			// 작은 이미지 정보 (,) 기준 나눠 담기 
-			$scope.sImg =[];
-
-			var str = $scope.item.p_small_img;
-			if(str != null)
-			$scope.Img = str.split(",");
-			angular.forEach($scope.Img, function(value)
-			{
-				uploadfactory.get({id:value}).$promise.then(function(result)
-				{ 
-			            img_file_path = '../'+result.file_path + '/' + result.file_name;		
-						$scope.sImg.push(img_file_path);
-				})
-			})
-			OptionRead();
-		}); 
-		//해당 상품 데이터 가져오기  
 		
-    }
-	
-    function OptionRead()
-    {
-		// 옵션 데이터 불러오기 
+		strArray = $scope.item.p_small_img; // 작은 이미지 정보 (,) 기준 나눠 담기 
+		$scope.sImg = strArray.split(",");
+
 		optionfactory.query({id:$routeParams.id}).$promise.then(function(result)
 		{
 			// 옵션 데이터 사이즈 설정 
@@ -154,37 +133,30 @@ mall.controller("ItemDetailController", function($scope, $routeParams, mallfacto
 			$scope.selectedOption =[]; //옵션 추가
 			$scope.sizeList = []; //옵션의 내용 추가
 
-			if(result.length==0){
-				$scope.optionList=''; 
-				
-			}
 
-			else
+			//옵션 기능 있는지 확인
+			$scope.optionList = $.grep($scope.optionList, function(option)
 			{
-				//옵션 기능 있는지 확인
-				$scope.optionList = $.grep($scope.optionList, function(option)
+				if(option.o_field_name=='옵션'&&option.o_all_status=='y') //옵션 존재 + 사용 y  
+				{ 
+					$scope.selectedOption.push(option); //옵션 넣기 
+					$scope.option_price = Number(option.o_value); //옵션값 정수 변환
+					$scope.o_price += $scope.option_price; //옵션이 있으면 기본값 + 옵션값
+
+
+					var str = option.o_select_box; //옵션 기능 값
+					arr = str.split(",");
+					$scope.sizeList.push(arr);
+					$scope.optionUse='y';	
+				}
+				else if(option.o_field_name!='옵션'&& option.o_all_status=='y') //옵션 x + 사용 뮤무 y 
 				{
-					if(option.o_field_name=='옵션'&&option.o_all_status=='y') //옵션 SELECT + 사용 유무 y 일경우
-					{ 
-						$scope.selectedOption.push(option);
-						$scope.option_price = Number(option.o_value); 
-						$scope.o_price += $scope.option_price; //옵션이 있으면 기본값 + 옵션값
-
-						var str = option.o_select_box; //옵션 기능 값
-						arr = str.split(",");
-						$scope.sizeList.push(arr);
-					}
-					else if(option.o_field_name!='옵션'&& option.o_all_status=='y') //일반 옵션 +  사용 뮤무 y 일경우
-					{
-						return true;
-					}
-				})
-			}
-		}) 
-    }
- 
-
-
+					return true;
+				}
+			})
+			
+		})
+	}); 
 
 	/* 작은 이미지 == 큰 이미지 교환 */	
 	$scope.imgChange = function(img)
@@ -203,8 +175,9 @@ mall.controller("ItemDetailController", function($scope, $routeParams, mallfacto
 		}
 		$scope.quantity +=1; //(수량 = 수량 + 1)
 		$scope.o_price = total_price+$scope.origin_price+$scope.option_price;//(총가격=총가격+단가+옵션)
-		$scope.p_price = total_price+$scope.origin_price;
-		$scope.o_totalMoney = total_price+$scope.origin_price+$scope.option_price;
+		$scope.d_price = total_price+$scope.origin_price;
+		$scope.o_totalMoney = total_price+$scope.origin_price;
+		$scope.p_totalMoney = total_price+$scope.origin_price;
 	} 
 
 	/* 수량 감소버튼 */ 
@@ -218,8 +191,9 @@ mall.controller("ItemDetailController", function($scope, $routeParams, mallfacto
 		}
 		$scope.quantity -=1;
 		$scope.o_price = total_price-$scope.origin_price-$scope.option_price; //(총가격= 총가격-단가-옵션)
-		$scope.p_price = total_price-$scope.origin_price;
+		$scope.d_price = total_price-$scope.origin_price;
 		$scope.o_totalMoney = total_price-$scope.origin_price-$scope.option_price;
+		$scope.p_totalMoney = total_price-$scope.origin_price;
 	}
 
 	/* 상품 목록 */ 
@@ -234,7 +208,7 @@ mall.controller("ItemDetailController", function($scope, $routeParams, mallfacto
 	$scope.shoppingBasket =function(p_code,p_title, p_total_price, 
 		                           p_buy_quantity, p_img, key)
 	{
-		if(key=='product')
+		if(key=='product')// 장바구니 -> 기본상품 담을때
 		{
 			$scope.pocketList = {
 									'idx':$scope.idx+detailService.getCount(),
@@ -252,11 +226,11 @@ mall.controller("ItemDetailController", function($scope, $routeParams, mallfacto
 				location.href="#/cart";
 		}
 
-		else if(key=='option')
+		else if(key=='option') //장바구니 -> 옵션상품 담을때 
 		{
 			if($scope.user.length==0)
 			{
-				alert("옵션을 선택해주세요.");
+				alert("옵션을 추가해주세요.");
 				return false;
 			}
 			else
@@ -305,8 +279,10 @@ mall.controller("ItemDetailController", function($scope, $routeParams, mallfacto
 	$scope.showQuantity = function(value)
 	{
 		$scope.o_totalMoney = $scope.o_price;
+		$scope.p_totalMoney = $scope.d_price;
 		$(".quantity_txt").html(value);
-		$(".quantity").show();
+		$(".content-o-quantity").show();
+
 	}
 })	
 
@@ -410,7 +386,6 @@ mall.controller("ItemShoppingbackController", function($scope, $routeParams, det
 	{
 		if($scope.pocketList!=null)
 		{
-
 			$scope.pocketList = detailService.clear(); //저장된 상품 배열 초기화
 			totalItems(); //상품 수량
 			totalCal(); //상품 계산
@@ -453,20 +428,29 @@ mall.directive('itemInsert', function(baseUrl, $document, mallfactory, optionfac
 		restrict: 'E',
 		templateUrl: baseUrl+'template/admin/item/iteminsert.html',
 		link: function($scope, element, attr){	
-
-		 	var files =''; //이미지 업로드 파일변수
-		    $scope.ck = CKEDITOR.replace("contents"); //텍스트 박스
-			$scope.p_status = 'y'; //상품 상태 초기화 	
+			var mallLength;
+			mallfactory.query().$promise.then(function(result)
+			{
+				mallLength=result.length;
+			}) 
+			
+		 	
+			$scope.ck = CKEDITOR.replace("contents",
+			{
+				height:500
+			});
+			$scope.p_status = 'y'; //상품 상태 초기화
 			
 			function init()
 			{	
 				location.reload();
 			}
 
-			$scope.itemInsert = function()
+			var files =''; //이미지 업로드 파일변수
+			$scope.itemInsert = function() //(기본 상품 정보) + (기본 옵션 정보) 추가
 			{	
 
-				$scope.fileList.forEach(function(obj)
+				$scope.imgList.forEach(function(obj)
 				{
 				     if(files == '')
 				     {
@@ -478,13 +462,43 @@ mall.directive('itemInsert', function(baseUrl, $document, mallfactory, optionfac
 				     }
 			    });
 
+
 				$scope.item.p_code = 'A'+Math.floor((Math.random() * 10000000) + 1);
 			    $scope.item.p_contents = $scope.ck.getData(); //설명 
 				$scope.item.p_big_img = $scope.itemList.p_big_img; //큰 이미지 
-				$scope.item.p_small_img = files; //작은 이미지
-				$scope.item.p_status = $scope.p_status;//이미지 표시
+				
+				$scope.item.p_small_img = files;
 
+				$scope.item.p_status = $scope.p_status;//이미지 표시
+				$scope.item.p_order = mallLength+1; //상품 개수
 				mallfactory.save({item:$scope.item});
+
+
+				$scope.option = [
+				{
+					'o_code':$scope.item.p_code,
+					'o_field_name_txt':'상품명',
+					'o_value':$scope.item.p_title,
+					'o_all_status':$scope.item.p_status,
+					'o_order':1
+				},
+				{
+					'o_code':$scope.item.p_code,
+					'o_field_name_txt':'가격',
+					'o_value':$scope.item.p_price,
+					'o_all_status':$scope.item.p_status,
+					'o_order':2	
+				},
+				{
+					'o_code':$scope.item.p_code,
+					'o_field_name_txt':'수량',
+					'o_value':$scope.item.p_quantity,
+					'o_all_status':$scope.item.p_status,
+					'o_order':3
+
+				}
+				];
+				optionfactory.save({option:$scope.option});
 				alert("등록 되었습니다");
 			}
 
@@ -510,6 +524,7 @@ mall.directive('itemManage', function(mallfactory, optionfactory, $timeout, $mdD
 		    scope.item = {
 		    	selected: false
 		    }
+		    scope.orderProperty = 'p_order';
 
 		    getItems();
 			/* 상품 관리 리스트 불러오기*/ 
@@ -663,22 +678,65 @@ mall.directive('itemManage', function(mallfactory, optionfactory, $timeout, $mdD
 					return false;
 				}
 			}
-
+			/* 리스트 이동*/
 			scope.list = function()
 			{
 				location.href ="#/list";
 			}
 
+			/* 순서 바꾸기 */
+			scope.orderChange = function(order,type, event)
+		    {
+				if(type=="up")
+		    	{
+		    		if(order==1)
+		    		{
+		    			return false;
+		    		}
+		    		else
+		    		{
+		    			scope.totalItems[order-1].p_order = order-1;
+			    		scope.totalItems[order-2].p_order = order;
+			    		changeposition(order-1);
+			    		mallfactory.update({
+				    		id:scope.totalItems, type:'multiple'
+				    	}).$promise.then(function(){
+				    		alert("변경 되었습니다.");
+				    	});
+				    	
+		    		}
+		    	}
+		    	else if(type=="down")
+		    	{
+		    		
+		    		if($(event)[0].currentTarget.className=='last')
+		    		{
+		    			return false;
+			    	}
+			    	else
+			    	{
+			    		scope.totalItems[order-1].p_order = order+1;
+			    		scope.totalItems[order].p_order = order;
+			    		changeposition(order);
+			    		mallfactory.update({
+				    		id:scope.totalItems, type:'multiple'
+				    	}).$promise.then(function(){
+				    		alert("변경 되었습니다.");
+				    	});
+				    	
+			    	}
+		    	}
+		    }
 
-			scope.order_up = function(idx)
-			{
-				mallfactory.save({order:idx}); 
-			}
+		    /* 위치 변동 */
+		    function changeposition(val)
+		    { 
+		       var temp;   
+		       temp = scope.totalItems[val];
+		       scope.totalItems[val] = scope.totalItems[val-1];
+		       scope.totalItems[val-1] = temp;
 
-			scope.order_down = function()
-			{
-				alert("다운");
-			}
+		    }
 		}
 	}
 })
@@ -698,15 +756,17 @@ mall.directive('itemEdit', function(mallfactory, $timeout, baseUrl, $compile ,up
 			$scope.fileList = [];
 
 			$scope.ck = CKEDITOR.replace("contents",
-				{
-					height:500
-				});
+			{
+				height:500
+			});
 
 			$scope.ck.setData($scope.itemList.p_contents);
 			
 			  file_ck_title = $scope.itemList.p_big_img;
 			  $scope.fileLists = $scope.itemList.p_small_img.split(',');
-		      $scope.fileLists.forEach(function(result){
+
+		      $scope.fileLists.forEach(function(result)
+		      {
 		         $scope.file_data = uploadfactory.get({id:result}).$promise.then(function(result){
 		            file_ck_append = $(result.file_origin_name.split('.')).last()[0];
 		            file_ck_name = result.file_name;
@@ -759,7 +819,6 @@ mall.directive('itemEdit', function(mallfactory, $timeout, baseUrl, $compile ,up
 		    $scope.sel_delete = function(e)
         	{
 		        var check = $(e.currentTarget)[0].parentElement.children[3].classList;
-
 		        var reitem = true;
 		        angular.forEach(check, function(value, key)
 		        {
@@ -822,7 +881,7 @@ mall.directive('itemEdit', function(mallfactory, $timeout, baseUrl, $compile ,up
 
 		    	$scope.itemList.p_small_img = files;
 		    	mallfactory.update({
-		    		id:$scope.itemList
+		    		id:$scope.itemList, type:'only'
 		    	}).$promise.then(function(){
 		    		alert("변경 되었습니다.");
 		    	});
@@ -912,17 +971,13 @@ mall.controller("OptionEditController", function($scope ,$mdDialog, optionfactor
     	});
     }
 
-    $scope.orderChange = function(order,type)
+    $scope.orderChange = function(order,type, event)
     {
-    	
 		if(type=="up")
     	{
-    			
     		if(order==1)
     		{
     			return false;
-    			//$scope.orderList[order-1].o_order = $scope.orderEndNumber;
-    			//$scope.orderList[order-orderEndNumber].o_order = 1;
     		}
     		else
     		{
@@ -933,11 +988,10 @@ mall.controller("OptionEditController", function($scope ,$mdDialog, optionfactor
     	}
     	else if(type=="down")
     	{
-    		if(order==$scope.orderEndNumber)
+    		
+    		if($(event)[0].currentTarget.className=='last')
     		{
     			return false;
-    		//	$scope.orderList[order-$scope.orderEndNumber].order = order;
-    		//	$scope.orderList[order].o_order = 1; 
 	    	}
 	    	else
 	    	{
@@ -1091,6 +1145,7 @@ mall.controller("OptionDropEditController", function($scope, $mdDialog, optionfa
 
 	$scope.update = function()
     {
+    	var checkCount = 0;
     	if($scope.optionList.length==0)
     	{
     		$mdDialog.hide();
@@ -1100,27 +1155,42 @@ mall.controller("OptionDropEditController", function($scope, $mdDialog, optionfa
     	angular.forEach($scope.optionList, function(value)
     	{
     		var option_select_values = '';
+    		if(value.o_all_status=='y') //옵션 1개만 쓸수 있도록 설정.
+			{
+				checkCount++;
+			}
     		if(value.o_select_box!=null)
     		{
-    			angular.forEach(value.o_select_box, function(result){
-    				 if(option_select_values == '')
-				     {
+    			angular.forEach(value.o_select_box, function(result)
+    			{
+    				
+    				if(option_select_values == '')
+				    {
 				        value.o_select_box = option_select_values + result;
-				     }
-				     else
-				     {
-				        value.o_select_box = option_select_values + ',' + result;
-				     }	
+				    }
+				    else
+				    {
+				       value.o_select_box = option_select_values + ',' + result;
+				    }	
     			});
     		}
     	});
-    	
-    	optionfactory.update({
-    		id:$scope.optionList
-    	}).$promise.then(function(){
-            alert("변경 되었습니다");
-    		$mdDialog.hide();
-        });
+
+    	if(checkCount<2)
+    	{
+
+	    	optionfactory.update({
+	    		id:$scope.optionList
+	    	}).$promise.then(function(){
+	            alert("변경 되었습니다");
+	    		$mdDialog.hide();
+	        });
+        }
+        else
+        {
+        	alert("옵션 표시상태 ->Y 변경(1개 가능)");
+        	return false;
+        }
     }
 
     /* 체크 박스 */
@@ -1251,6 +1321,7 @@ mall.directive('fileupload', function($compile,$timeout,Upload, baseUrl, uploadf
            var imgvalidate = /^(?:image\/bmp|image\/gif|image\/jpeg|image\/png|image\/x\-xwindowdump|image\/x\-portable\-bitmap)$/i;
             $scope.filesavePath = attr.src;
             $scope.fileList = [];
+            $scope.imgList= []; //이미지리스트
             $scope.itemList ={};    
             var parent_div = $(" <make-file-div>"); 
             var ck = true; 
@@ -1274,13 +1345,15 @@ mall.directive('fileupload', function($compile,$timeout,Upload, baseUrl, uploadf
                   $scope.spanfilename = file[0].name;
                    ck = true;
 
-                 $('.img_list span').each(function(index,result){
-                  if(result.innerHTML == file[0].name){
-                     alert('같은 파일 있습니다');
-                     parent_div.remove();
-                     ck = false;
-                  }
-               })
+                  $('.img_list span').each(function(index,result)
+                  {
+	                  if(result.innerHTML == file[0].name)
+	                  {
+	                     alert('같은 파일 있습니다');
+	                     parent_div.remove();
+	                     ck = false;
+	                  }
+               	  })
 
                   if(ck){
                     file.upload = Upload.upload({
@@ -1313,6 +1386,7 @@ mall.directive('fileupload', function($compile,$timeout,Upload, baseUrl, uploadf
                         parent_div.addClass('img_list');
                         parent_div.addClass(newfile.src);
                         $scope.fileList.push(newfile.number);
+                        $scope.imgList.push(newfile.src);
                         $scope.cnt++;
 
                    }, function(resp){
@@ -1345,7 +1419,7 @@ mall.directive("makeFileDiv", function($compile,baseUrl){
          $('.img_list span').last().append($scope.spanfilename);
 
      
-        $scope.sel_title = function(e,val)
+        $scope.sel_title = function(e,val) //타이틀 지정
         {
             $('.md-warn').removeClass('md-warn');
             $(e.currentTarget).addClass('md-warn');
@@ -1358,14 +1432,14 @@ mall.directive("makeFileDiv", function($compile,baseUrl){
             $scope.itemList.p_big_img = title;
          }
 
-        $scope.sel_insert = function(e)
+        $scope.sel_insert = function(e) //이미지 컨텐츠 삽입
         {
             var src = $(e.currentTarget)[0].parentElement.children[1].src;
             $scope.ck.insertHtml("<img src='" +src+ "'>");
         }
 
 
-        $scope.sel_delete = function(e)
+        $scope.sel_delete = function(e) //이미지 삭제
         {
             var check = $(e.currentTarget)[0].parentElement.children[3].classList;
             var reitem = true;

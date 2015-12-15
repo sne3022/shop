@@ -28,7 +28,15 @@ class MallItemController extends Controller{
 	public function update()
 	{
 		$itemObj = Request::input('id');
-		$this->item->ItemUpdate($itemObj);
+		if(Request::input('type')=='only')
+		{
+			$this->item->ItemUpdate($itemObj,1);
+		}
+		else if(Request::input('type')=='multiple')
+		{
+			$this->item->ItemUpdate($itemObj,2);
+		}
+		
 	}
 	public function destroy($id)//angular delete() -> 서버에 저장된 상품 삭제
 	{	

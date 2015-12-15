@@ -7,7 +7,7 @@
         <md-checkbox ng-model="selectedAll" ng-change="allCheck()" aria-label=" ">
         </md-checkbox>
       </div>
-      <div flex="10" layout-align="center center" layout="row" class="manage-title">진열순위</div>
+      <div flex="10" layout-align="center center" layout="row" class="manage-title">진열순서</div>
       <div flex="15" layout-align="center center" layout="row" class="manage-title">상품코드</div>
       <div flex="40" layout-align="center center" layout="row" class="manage-title">상품명</div>
       <div flex="15" layout-align="center center" layout="row" class="manage-title">판매가</div>
@@ -16,15 +16,22 @@
     <!-- end -->
 
     <!-- item value -->
-    <div id="{%item.p_code%}" layout="row" flex="100" ng-repeat="item in totalItems" class="manage-title-value" layout-wrap>
+    <div id="{%item.p_code%}" layout="row" flex="100" ng-repeat="item in totalItems | orderBy:'p_order'" class="manage-title-value" layout-wrap>
       <div flex="10" layout-align="center center" layout="row">
         <md-checkbox class="md-check" id="{%item.p_code%}" ng-model="item.selected" ng-click="checkModule(item)" aria-label=" ">
         </md-checkbox>
       </div>
-      <div flex="10" layout-align="center center" layout="row">
-        <h4>{%item.p_idx%}</h4>
+      <div flex="10" class="order-font" layout-align="center center" layout="row">
+        <span>
+            <p ng-click="orderChange(item.p_order,'up', $event)"><img ng-src="image/btn_up.png"></p>
+            <p>{%item.p_order%}</p>
+            <p ng-click="orderChange(item.p_order,'down', $event)" ng-class="{'last':$last}"><img ng-src="image/btn_down.png"></p>
+        </span>
+      </div>  
+
+      <div flex="15" layout-align="center center" layout="row">
+        <h4>{%item.p_code%}</h4>
       </div>
-      <div flex="15" layout-align="center center" layout="row"><h4>{%item.p_code%}</h4></div>
       <div flex="40" layout-align="center center" layout="row">
         <md-list-item class="md-4-line" >
             <img ng-src="{%item.p_big_img%}" class="md-avatar manage-avatar-img"/>

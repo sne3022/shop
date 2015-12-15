@@ -6,9 +6,14 @@ class OptionService implements IOption{
 
 	public function OptionInsert($option)
 	{
-		$optionObj = new option();
-		$optionObj->fill($option);
-		$optionObj->save();
+		
+		foreach ($option as $value) 
+		{
+			$optionObj = new option();
+			$optionObj->fill($value);
+			$optionObj->save();
+		}
+		
 	}
 	public function OptionList()
 	{

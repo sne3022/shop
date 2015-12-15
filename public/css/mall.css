@@ -87,6 +87,13 @@ list-style: none;
 
 .detail_wrap{
 	width:1080px; margin:auto;
+
+}
+
+.content-wrap{
+	width:100%;
+	min-height:600px;
+	margin-bottom: 20px;
 }
 
 .imgArea{
@@ -95,7 +102,8 @@ list-style: none;
 }
 
 .bigImg{
-	width:660px; 
+	/*max-width: 630px;*/
+	width:100%; 
 	height:450px;
 	text-align: center;
 }
@@ -108,15 +116,16 @@ list-style: none;
 
 .smallImg{
 	margin-top: 10px;
-	padding-left:30px;
-	max-width:630px; height:90px;
+	width:100%;
+	height:90px;
+	/*max-width:630px;*/ 
 
 }
 
 .smallImg img{
 	cursor: pointer;
 	border: 1px solid #eee;
-	width:67px; 
+	width:71px; 
 	height:80px;
 }
 .smallImg ul{
@@ -136,12 +145,17 @@ display: inline;
 	padding-left:5px;
 }
 
+.content-p-quantity{
+	border-top: 1px solid #eee;
+	border-bottom: 1px solid #eee;
+}
 .content-o-quantity{
 	 padding-left:5px;
-	 border:1px solid #999; 
+	 border:2px solid #999; 
 	 width:320px; 
-	 height:70px; 
+	 height:70px !important; 
 	 border-radius: 7px;
+	 display:none;
 }
 .contents_txt{
 	font-weight: 900;
@@ -150,12 +164,16 @@ display: inline;
 	color:#555555;
 }
 .contents ul li{
-	height:60px;
+	height:47px;
 }
 
 .quantity{
 	padding-top:5px;
 	display: block;
+	position: relative;
+}
+
+.p-quantity{
 	position: relative;
 }
 
@@ -192,13 +210,13 @@ display: inline;
 	cursor: pointer;
 	position: absolute;
 	left:33px;
-	top:15px;
+	top:-4px;
 }
 .p_btn_down{
 	cursor: pointer;
 	position: absolute;
 	left:33px;
-	top:27px
+	top:8px
 }
 
 .pocket_quantity .btn_up{
@@ -217,9 +235,6 @@ display: inline;
 	width:90%; margin:auto; text-align: center;
 }
 
-.btn-set{
-	margin-top: 15px;
-}
 .btn-set .btn{
 	margin:0;
 	width:320px;
@@ -230,19 +245,27 @@ display: inline;
 .btn-buy{
 	margin:0;
 	width:320px;
-	margin-bottom: 10px;
 	background-color:#000 !important;
 	color:#fff !important; 
+}
+
+.p_totalMoney{
+	padding-top:10px;
+	text-align: right;
 } 
 .totalMoney{
-	padding-top:5px; 
-	padding-top:26px; 
+	padding-top:13px; 
 	text-align: right;
 }
 .description{
 	clear:both; width:100%; 
 	text-align: center;
 	line-height: 5;
+}
+
+.content-btn{
+	padding-top:10px;
+	max-height: 250px;
 }
 /* end */
 
