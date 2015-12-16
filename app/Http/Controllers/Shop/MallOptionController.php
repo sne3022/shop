@@ -29,7 +29,8 @@ class MallOptionController extends Controller{
 
 	public function store() //서버에 상품 저장
 	{
-		$this->option->OptionInsert(Request::input('option'));
+
+		$this->option->OptionInsert(Request::input('option'),Request::input('type'));
 	}
 
 	public function destroy($id)//angular delete() -> 서버에 저장된 상품 삭제

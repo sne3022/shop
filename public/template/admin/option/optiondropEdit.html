@@ -24,9 +24,9 @@
 		            <md-input-container class="order-font">
 		              <h4>순서</h4>
 		              <span>
-		              <p ng-click="orderChange(option.o_order,'up')"><img ng-src="image/btn_up.png"></p>
-		              <p>{%option.o_order%}</p>
-		              <p ng-click="orderChange(option.o_order,'down',$event)" ng-class="{'last':$last}"><img ng-src="image/btn_down.png"></p>
+		              <p ng-click="orderChange($index,'up')"><img ng-src="image/btn_up.png"></p>
+		              <p>{%$index+1%}</p>
+		              <p ng-click="orderChange($index,'down',$event)" ng-class="{'last':$last}"><img ng-src="image/btn_down.png"></p>
 		              </span>
 		            </md-input-container>
 

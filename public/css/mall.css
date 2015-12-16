@@ -371,6 +371,7 @@ display: inline;
 }
 md-checkbox .md-icon {
     background: #none;
+    border-radius: 9px;
 }
 .manage-icons{
 	font-size:14px;

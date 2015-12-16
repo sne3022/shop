@@ -18,8 +18,14 @@ class ModuleController extends Controller {
 	
 	}
 
-	public function show($id){ //angular get($id) 서버에 해당 이미지 불러오기
-		return $this->file->getFileOrigin($id);
+	public function show($id) //angular get($id) 서버에 해당 이미지 불러오기
+	{ 
+		  $id = explode(',',$id);
+	      $filelist = [];
+	      foreach($id as $value){
+	         array_push($filelist,$this->file->getFileOrigin($value));
+	      }
+     	 return $filelist;
 	}
 
 	public function store() //anguluar save 서버에 이미지 저장

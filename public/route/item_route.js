@@ -119,7 +119,9 @@ mallService.factory('optionfactory', function($resource, baseUrl){
 
 mallService.factory('uploadfactory', function($resource, baseUrl){
     var resource = $resource(baseUrl+'upload/:id', {id:'@id'},
-        {update : {method:'PUT'}
+        {
+            update : {method:'PUT'},
+            get : {method:'GET', isArray:true}
         }
     );
     return resource;  //module/:id 에서 id 의 값에 따라  @id의 값이 결정된다.

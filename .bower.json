@@ -2,7 +2,11 @@
   "name": "sneboard-shop",
   "version": "1.0.0",
   "main":[],
-  "ignore": ["bootstrap","config","database","storage", "resources", "tests"],
+  "ignore": ["bootstrap","config","database", "resources", 
+             "tests", "app\\User.php", "app\\Console", "app\\Events", 
+             "app\\Exceptions", "app\\Jobs", "app\\Jobs", "app\\Listeners",
+             "app\\Ppolicies"
+            ],
   "dependencies": {},
   "homepage": "",
   "_source": "git://github.com/sne3022/shop.git",

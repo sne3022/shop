@@ -105,7 +105,7 @@ mall.controller("ItemDetailController", function($scope, $routeParams, mallfacto
     }
 
 
- 	var strArray = null;
+ 	
 	mallfactory.get({id:$routeParams.id}).$promise.then(function(result)
 	{					
 		$scope.item = result; //전체 상품 정보
@@ -124,8 +124,13 @@ mall.controller("ItemDetailController", function($scope, $routeParams, mallfacto
 		$scope.origin_price = $scope.item.p_price; //상품 기본 가격
 
 		
-		strArray = $scope.item.p_small_img; // 작은 이미지 정보 (,) 기준 나눠 담기 
-		$scope.sImg = strArray.split(",");
+		 uploadfactory.get({id:$scope.item.p_small_img}).$promise.then(function(result)
+		 {
+	            result.forEach(function(result)
+	            {
+	               $scope.sImg.push('../'+result.file_path + '/' + result.file_name);
+	            })
+	     })
 
 		optionfactory.query({id:$routeParams.id}).$promise.then(function(result)
 		{
@@ -143,7 +148,6 @@ mall.controller("ItemDetailController", function($scope, $routeParams, mallfacto
 					$scope.selectedOption.push(option); //옵션 넣기 
 					$scope.option_price = Number(option.o_value); //옵션값 정수 변환
 					$scope.o_price += $scope.option_price; //옵션이 있으면 기본값 + 옵션값
-
 
 					var str = option.o_select_box; //옵션 기능 값
 					arr = str.split(",");
@@ -177,7 +181,7 @@ mall.controller("ItemDetailController", function($scope, $routeParams, mallfacto
 		$scope.quantity +=1; //(수량 = 수량 + 1)
 		$scope.o_price = total_price+$scope.origin_price+$scope.option_price;//(총가격=총가격+단가+옵션)
 		$scope.d_price = total_price+$scope.origin_price;
-		$scope.o_totalMoney = total_price+$scope.origin_price;
+		$scope.o_totalMoney = total_price+$scope.origin_price+$scope.option_price;
 		$scope.d_totalMoney = total_price+$scope.origin_price;
 	} 
 
@@ -453,7 +457,7 @@ mall.directive('itemInsert', function(baseUrl, $document, mallfactory, optionfac
 			$scope.itemInsert = function() //(기본 상품 정보) + (기본 옵션 정보) 추가
 			{	
 
-				$scope.imgList.forEach(function(obj)
+			    $scope.fileList.forEach(function(obj)
 				{
 				     if(files == '')
 				     {
@@ -707,16 +711,9 @@ mall.directive('itemManage', function(mallfactory, optionfactory, $timeout, $mdD
 		    		{
 		    			var temp = null; //임시저장 공간
 			    		temp = scope.totalItems[order].p_order;
-			    		
 			    		scope.totalItems[order].p_order = scope.totalItems[order-1].p_order;
 			    		scope.totalItems[order-1].p_order = temp;
 			    		changeposition(order);
-
-			    		mallfactory.update({
-				    		id:scope.totalItems, type:'multiple'
-				    	}).$promise.then(function(){
-				    		alert("변경 되었습니다.");
-				    	});
 		    		}
 		    	}
 		    	else if(type=="down")
@@ -728,21 +725,22 @@ mall.directive('itemManage', function(mallfactory, optionfactory, $timeout, $mdD
 			    	}
 			    	else
 			    	{
-
 			    		var temp = null;
 			    		temp = scope.totalItems[order].p_order;
 			    		scope.totalItems[order].p_order = scope.totalItems[order+1].p_order;
 			    		scope.totalItems[order+1].p_order = temp;
 			    		changeposition(order+1);
-
-			    		mallfactory.update({
-				    		id:scope.totalItems, type:'multiple'
-				    	}).$promise.then(function(){
-				    		alert("변경 되었습니다.");
-				    	});
-				    	
 			    	}
 		    	}
+		    }
+
+		    scope.save = function()
+		    {
+		    	mallfactory.update({
+		    		id:scope.totalItems, type:'multiple'
+		    	}).$promise.then(function(){
+		    		alert("변경 되었습니다.");
+		    	});
 		    }
 
 		    function changeposition(val){ 
@@ -776,21 +774,18 @@ mall.directive('itemEdit', function(mallfactory, $timeout, baseUrl, $compile ,up
 
 			$scope.ck.setData($scope.itemList.p_contents);
 			 
-			  file_ck_title = $scope.itemList.p_big_img;
-			  $scope.fileLists = $scope.itemList.p_small_img.split(',');
-
-		      $scope.fileLists.forEach(function(result)
-		      {
-		         $scope.file_data = uploadfactory.get({id:result}).$promise.then(function(result){
-		            file_ck_append = $(result.file_origin_name.split('.')).last()[0];
-		            file_ck_name = result.file_name;
-		            file_ck_path = result.file_path + '/' + file_ck_name;
-		            file_ck_idx = result.file_idx;
-		            file_ck_origin_name = result.file_origin_name;
-		            make_file_div(file_ck_append,file_ck_path,file_ck_idx,file_ck_origin_name,file_ck_title);
-		         })
-		      })
-
+			file_ck_title = $scope.itemList.p_big_img;
+			
+		    uploadfactory.get({id:$scope.itemList.p_small_img}).$promise.then(function(result){
+	            result.forEach(function(result){
+	               file_ck_append = $(result.file_origin_name.split('.')).last()[0];
+	               file_ck_name = result.file_name;
+	               file_ck_path = result.file_path + '/' + result.file_name;
+	               file_ck_idx = result.file_idx;
+	               file_ck_origin_name = result.file_origin_name;
+	               make_file_div(file_ck_append,file_ck_path,file_ck_idx,file_ck_origin_name,file_ck_title);            
+	            })
+	         })
 
 		    function make_file_div(file_ck_append,file_ck_path,file_ck_idx,file_ck_origin_name,file_ck_title)
 		    {
@@ -988,15 +983,17 @@ mall.controller("OptionEditController", function($scope ,$mdDialog, optionfactor
     {
 		if(type=="up")
     	{
-    		if(order==1)
+    		if(order==0)
     		{
     			return false;
     		}
     		else
     		{
-    			$scope.optionList[order-1].o_order = order-1;
-	    		$scope.optionList[order-2].o_order = order;
-	    		changeposition(order-1);
+    			var temp = null; //임시저장 공간
+	    		temp = $scope.optionList[order].o_order;
+	    		$scope.optionList[order].o_order = $scope.optionList[order-1].o_order;
+	    		$scope.optionList[order-1].o_order = temp;
+	    		changeposition(order);
     		}
     	}
     	else if(type=="down")
@@ -1008,9 +1005,11 @@ mall.controller("OptionEditController", function($scope ,$mdDialog, optionfactor
 	    	}
 	    	else
 	    	{
-	    		$scope.optionList[order-1].o_order = order+1;
-	    		$scope.optionList[order].o_order = order;
-	    		changeposition(order);
+	    		var temp = null;
+	    		temp = $scope.optionList[order].o_order;
+	    		$scope.optionList[order].o_order = $scope.optionList[order+1].o_order;
+	    		$scope.optionList[order+1].o_order = temp;
+	    		changeposition(order+1);
 	    	}
     	}
     	
@@ -1043,7 +1042,6 @@ mall.controller("OptionInsertController", function($scope, $mdDialog, optionfact
 				{
 					return true;	
 				}
-				
 			})
 			$scope.option.o_order = result.length+1;
 		})
@@ -1167,7 +1165,7 @@ mall.controller("OptionDropEditController", function($scope, $mdDialog, optionfa
     	}
     	angular.forEach($scope.optionList, function(value)
     	{
-    		var option_select_values = '';
+    		var option_select_values = '';	
     		if(value.o_all_status=='y') //옵션 1개만 쓸수 있도록 설정.
 			{
 				checkCount++;
@@ -1176,16 +1174,17 @@ mall.controller("OptionDropEditController", function($scope, $mdDialog, optionfa
     		{
     			angular.forEach(value.o_select_box, function(result)
     			{
-    				
     				if(option_select_values == '')
 				    {
-				        value.o_select_box = option_select_values + result;
+				        option_select_values = option_select_values + result;
 				    }
 				    else
 				    {
-				       value.o_select_box = option_select_values + ',' + result;
-				    }	
+				       option_select_values = option_select_values + ',' + result;
+				    }
+				    value.o_select_box = option_select_values;	
     			});
+
     		}
     	});
 
@@ -1241,15 +1240,17 @@ mall.controller("OptionDropEditController", function($scope, $mdDialog, optionfa
     {
 		if(type=="up")
     	{
-    		if(order==1)
+    		if(order==0)
     		{
     			return false;
     		}
     		else
     		{
-    			$scope.optionList[order-1].o_order = order-1;
-	    		$scope.optionList[order-2].o_order = order;
-	    		changeposition(order-1);
+    			var temp = null;
+    			temp = $scope.optionList[order].o_order;
+	    		$scope.optionList[order].o_order = $scope.optionList[order-1].o_order;
+	    		$scope.optionList[order-1].o_order = temp;
+	    		changeposition(order);
     		}
     	}
     	else if(type=="down")
@@ -1261,9 +1262,11 @@ mall.controller("OptionDropEditController", function($scope, $mdDialog, optionfa
 	    	}
 	    	else
 	    	{
-	    		$scope.optionList[order-1].o_order = order+1;
-	    		$scope.optionList[order].o_order = order;
-	    		changeposition(order);
+	    		var temp = null;
+	    		temp = $scope.optionList[order].o_order;
+	    		$scope.optionList[order].o_order = $scope.optionList[order+1].o_order;
+	    		$scope.optionList[order+1].o_order = temp;
+	    		changeposition(order+1);
 	    	}
     	}
     	
