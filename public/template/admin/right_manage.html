@@ -17,6 +17,7 @@
 
     <!-- item value -->
     <div id="{%item.p_code%}" layout="row" flex="100" ng-repeat="item in totalItems track by $index| orderBy:'p_order'" class="manage-title-value" layout-wrap>
+
       <div flex="10" layout-align="center center" layout="row">
         <md-checkbox class="md-check" id="{%item.p_code%}" ng-model="item.selected" ng-click="checkModule(item)" aria-label=" ">
         </md-checkbox>
@@ -34,7 +35,9 @@
       </div>
       <div flex="40" layout-align="center center" layout="row">
         <md-list-item class="md-4-line" >
+
             <img ng-src="{%item.p_big_img%}" class="md-avatar manage-avatar-img"/>
+
             <div class="md-list-item-text manage-avatar-txt" layout="column">
               <p>{%item.p_title%}
                 <md-menu>

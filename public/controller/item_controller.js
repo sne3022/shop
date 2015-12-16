@@ -432,13 +432,15 @@ mall.directive('itemInsert', function(baseUrl, $document, mallfactory, optionfac
 			var mallLength;
 			mallfactory.query().$promise.then(function(result)
 			{
-				mallLength=result.length;
+				mallLength = result.length;
+				if(mallLength!=0)
+				mallLength = result[mallLength-1].p_order;
 			}) 
 			
 		 	
 			$scope.ck = CKEDITOR.replace("contents",
 			{
-				height:500
+				height:400
 			});
 			$scope.p_status = 'y'; //상품 상태 초기화
 			
@@ -687,26 +689,34 @@ mall.directive('itemManage', function(mallfactory, optionfactory, $timeout, $mdD
 				location.href ="#/list";
 			}
 
+			scope.random = function()
+			{
+				return new Date().toString();
+			}
+
 			/* 순서 바꾸기 */
 			scope.orderChange = function(order,type, event)
 		    {
 				if(type=="up")
 		    	{
-		    		if(order==1)
+		    		if(order==0)
 		    		{
 		    			return false;
 		    		}
 		    		else
 		    		{
-		    			scope.totalItems[order-1].p_order = order-1; //자기자신
-			    		scope.totalItems[order-2].p_order = order; //이전 상품
-			    		changeposition(order-1); //자기 배열번호
+		    			var temp = null; //임시저장 공간
+			    		temp = scope.totalItems[order].p_order;
+			    		
+			    		scope.totalItems[order].p_order = scope.totalItems[order-1].p_order;
+			    		scope.totalItems[order-1].p_order = temp;
+			    		changeposition(order);
+
 			    		mallfactory.update({
 				    		id:scope.totalItems, type:'multiple'
 				    	}).$promise.then(function(){
 				    		alert("변경 되었습니다.");
 				    	});
-				    	
 		    		}
 		    	}
 		    	else if(type=="down")
@@ -720,12 +730,11 @@ mall.directive('itemManage', function(mallfactory, optionfactory, $timeout, $mdD
 			    	{
 
 			    		var temp = null;
-			    		var totalLength = scope.totalItems.length; //총 배열길이
-			    		temp = scope.totalItems[order].p_order; //자기정보 임시저장
-
-			    		scope.totalItems[order].p_order = scope.totalItems[order+1].p_order; //자기자신 
+			    		temp = scope.totalItems[order].p_order;
+			    		scope.totalItems[order].p_order = scope.totalItems[order+1].p_order;
 			    		scope.totalItems[order+1].p_order = temp;
-			    		
+			    		changeposition(order+1);
+
 			    		mallfactory.update({
 				    		id:scope.totalItems, type:'multiple'
 				    	}).$promise.then(function(){
@@ -734,6 +743,13 @@ mall.directive('itemManage', function(mallfactory, optionfactory, $timeout, $mdD
 				    	
 			    	}
 		    	}
+		    }
+
+		    function changeposition(val){ 
+		       var temp;   
+		       temp = scope.totalItems[val];
+		       scope.totalItems[val] = scope.totalItems[val-1];
+		       scope.totalItems[val-1] = temp;   
 		    }
 		}
 	}

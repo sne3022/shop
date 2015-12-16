@@ -1,9 +1,9 @@
-<?php namespace App\Services\Shop;
+<?php namespace sneboard_shop\Services\Shop;
 
-use App\Contracts\Shop\IFile;
+use sneboard_shop\Contracts\Shop\IFile;
 use Request;
-use App\Models\Shop\fileupload;
-use App\Http\Helpers\FileUploader;
+use sneboard_shop\Models\Shop\fileupload;
+use sneboard_shop\Http\Helpers\FileUploader;
 use Response;
 use File;
 

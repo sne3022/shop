@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers\Shop;
+namespace sneboard_shop\Providers\Shop;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -24,16 +24,16 @@ class ShopServiceProvider extends ServiceProvider
     public function register()
     {
          $this->app->bind(
-            'App\Contracts\Shop\IItem',
-            'App\Services\Shop\ItemService'
+            'sneboard_shop\Contracts\Shop\IItem',
+            'sneboard_shop\Services\Shop\ItemService'
          );
          $this->app->bind(
-            'App\Contracts\Shop\IOption',
-            'App\Services\Shop\OptionService'
+            'sneboard_shop\Contracts\Shop\IOption',
+            'sneboard_shop\Services\Shop\OptionService'
          );
          $this->app->bind(
-            'App\Contracts\Shop\IFile',
-            'App\Services\Shop\FileUploadService'
+            'sneboard_shop\Contracts\Shop\IFile',
+            'sneboard_shop\Services\Shop\FileUploadService'
          );
     }
 }

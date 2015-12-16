@@ -1,7 +1,7 @@
-<?php namespace App\Services\Shop;
+<?php namespace sneboard_shop\Services\Shop;
 
-use App\Models\Shop\item;
-use App\Contracts\Shop\IItem;
+use sneboard_shop\Models\Shop\item;
+use sneboard_shop\Contracts\Shop\IItem;
 class ItemService implements IItem{
 
 	public function ItemAdd($item)
@@ -23,8 +23,9 @@ class ItemService implements IItem{
 		{
 			foreach ($item as $itemArray) 
 			{
-				$itemObj = item::where('p_idx', $itemArray['p_idx'])->
-				           update(['p_order' => $itemArray['p_order']]);
+				$itemObj =item::where('p_idx', $itemArray['p_idx'])->update([
+					'p_order'=>$itemArray['p_order']
+				]);
 			}
 			
 		}

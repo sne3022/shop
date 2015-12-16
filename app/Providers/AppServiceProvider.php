@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace sneboard_shop\Providers;
 
 use Illuminate\Support\ServiceProvider;
 

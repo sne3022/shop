@@ -1,10 +1,10 @@
-<?php namespace App\Http\Controllers\Shop;
+<?php namespace sneboard_shop\Http\Controllers\Shop;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
+use sneboard_shop\Http\Requests;
+use sneboard_shop\Http\Controllers\Controller;
 use Request;
 use Illuminate\Contracts\Auth\Guard;
-use App\Contracts\Shop\IFile;
+use sneboard_shop\Contracts\Shop\IFile;
 
 
 class ModuleController extends Controller {

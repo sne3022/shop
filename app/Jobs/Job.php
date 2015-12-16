@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace sneboard_shop\Jobs;
 
 use Illuminate\Bus\Queueable;
 

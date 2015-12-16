@@ -1,4 +1,4 @@
-<? namespace App\Models\Shop;
+<? namespace sneboard_shop\Models\Shop;
 
 use Illuminate\Database\Eloquent\Model;
 

@@ -1,5 +1,5 @@
 suites:
     main:
-        namespace: App
-        psr4_prefix: App
+        namespace: sneboard_shop
+        psr4_prefix: sneboard_shop
         src_path: app

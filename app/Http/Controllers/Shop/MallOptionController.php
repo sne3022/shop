@@ -1,7 +1,7 @@
-<?php namespace App\Http\Controllers\Shop;
+<?php namespace sneboard_shop\Http\Controllers\Shop;
 
-use App\Http\Controllers\Controller;
-use App\Contracts\Shop\IOption;
+use sneboard_shop\Http\Controllers\Controller;
+use sneboard_shop\Contracts\Shop\IOption;
 use Request;
 class MallOptionController extends Controller{
 

@@ -1,4 +1,4 @@
-<? namespace App\Contracts\Shop;
+<? namespace sneboard_shop\Contracts\Shop;
 
 interface IFile
 {

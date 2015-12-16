@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events;
+namespace sneboard_shop\Events;
 
 abstract class Event
 {

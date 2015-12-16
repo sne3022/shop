@@ -1,7 +1,7 @@
-<?php namespace App\Services\Shop;
+<?php namespace sneboard_shop\Services\Shop;
 
-use App\Models\Shop\option;
-use App\Contracts\Shop\IOption;
+use sneboard_shop\Models\Shop\option;
+use sneboard_shop\Contracts\Shop\IOption;
 class OptionService implements IOption{
 
 	public function OptionInsert($option)

@@ -140,11 +140,11 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
-        App\Providers\Shop\ShopServiceProvider::class,
+        sneboard_shop\Providers\AppServiceProvider::class,
+        sneboard_shop\Providers\AuthServiceProvider::class,
+        sneboard_shop\Providers\EventServiceProvider::class,
+        sneboard_shop\Providers\RouteServiceProvider::class,
+        sneboard_shop\Providers\Shop\ShopServiceProvider::class,
 
     ],
 

@@ -1,6 +1,6 @@
-<?php namespace App\Http\Controllers\Shop;
+<?php namespace sneboard_shop\Http\Controllers\Shop;
 
-use App\Http\Controllers\Controller;
+use sneboard_shop\Http\Controllers\Controller;
 class TestController extends Controller{
 
 	public function getIndex()

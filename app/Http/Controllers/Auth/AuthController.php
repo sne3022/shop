@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace sneboard_shop\Http\Controllers\Auth;
 
-use App\User;
+use sneboard_shop\User;
 use Validator;
-use App\Http\Controllers\Controller;
+use sneboard_shop\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
