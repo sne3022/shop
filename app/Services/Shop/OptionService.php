@@ -4,11 +4,24 @@ use sneboard_shop\Models\Shop\option;
 use sneboard_shop\Contracts\Shop\IOption;
 class OptionService implements IOption{
 
-	public function OptionInsert($option)
+	public function OptionInsert($option, $type)
 	{
+		if($type=='default')
+		{
+			foreach ($option as $value) 
+			{
+				$optionObj = new option();
+				$optionObj->fill($value);
+				$optionObj->save();
+			}
+		}
+		else if($type=='insert' || $type=='drop')
+		{
 			$optionObj = new option();
 			$optionObj->fill($option);
 			$optionObj->save();
+		}
+			
 	}
 	public function OptionList()
 	{

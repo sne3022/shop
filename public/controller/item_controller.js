@@ -281,6 +281,7 @@ mall.controller("ItemDetailController", function($scope, $routeParams, mallfacto
 
 	}
 
+	/* 옵션 및 수량 보여주기 */
 	$scope.showQuantity = function(value)
 	{
 		$scope.o_totalMoney = $scope.o_price;
@@ -465,7 +466,7 @@ mall.directive('itemInsert', function(baseUrl, $document, mallfactory, optionfac
 				     }
 				     else
 				     {
-				        files = files + ',' + obj;
+				        files = files + ',' + obj; //(img1, img2, img3.... )담는다.
 				     }
 			    });
 
@@ -487,7 +488,7 @@ mall.directive('itemInsert', function(baseUrl, $document, mallfactory, optionfac
 					'o_field_name_txt':'상품명',
 					'o_value':$scope.item.p_title,
 					'o_all_status':$scope.item.p_status,
-					'o_type':'only',
+					'o_type':'default',
 					'o_order':1
 				},
 				{
@@ -495,7 +496,7 @@ mall.directive('itemInsert', function(baseUrl, $document, mallfactory, optionfac
 					'o_field_name_txt':'가격',
 					'o_value':$scope.item.p_price,
 					'o_all_status':$scope.item.p_status,
-					'o_type':'only',
+					'o_type':'default',
 					'o_order':2	
 				},
 				{
@@ -503,12 +504,12 @@ mall.directive('itemInsert', function(baseUrl, $document, mallfactory, optionfac
 					'o_field_name_txt':'수량',
 					'o_value':$scope.item.p_quantity,
 					'o_all_status':$scope.item.p_status,
-					'o_type':'only',
+					'o_type':'default',
 					'o_order':3
 
 				}
 				];
-				optionfactory.save({option:$scope.option});
+				optionfactory.save({option:$scope.option, type:'default'});
 				alert("등록 되었습니다");
 			}
 
@@ -901,11 +902,12 @@ mall.directive('itemEdit', function(mallfactory, $timeout, baseUrl, $compile ,up
 
 
 /******************************************* 타이틀 수정 ****************************************/
-mall.controller("OptionEditController", function($scope ,$mdDialog, optionfactory)
+mall.controller("OptionEditController", function($scope ,$mdDialog, optionfactory, mallfactory)
 {
 
 	var str = null;
 	$scope.orderProperty = 'o_order';
+	$scope.item = {};
 	getItems();
 
 	
@@ -922,7 +924,16 @@ mall.controller("OptionEditController", function($scope ,$mdDialog, optionfactor
 					value.o_select_box = str.split(',');
 				}
 				else
-				{
+				{	
+					if(value.o_type=='default' && value.o_field_name_txt=='상품명')
+					{	
+						$scope.item.p_title = value.o_value; 
+						$scope.item.p_code = value.o_code;
+					}
+					else if(value.o_type=='default' && value.o_field_name_txt=='가격')
+					$scope.item.p_price = value.o_value;
+					else if(value.o_type=='default' && value.o_field_name_txt=='수량')
+					$scope.item.p_quantity = value.o_value;
 					return true;
 				}
 			})
@@ -935,13 +946,21 @@ mall.controller("OptionEditController", function($scope ,$mdDialog, optionfactor
     }
 
     $scope.update = function()
-    {	
-    	optionfactory.update({
+    {	  
+    	if($scope.item.p_title!=null)
+    	{
+    		mallfactory.update({
+		    		id:$scope.item, type:'default'
+		    }).$promise.then(function(){
+		    	alert("변경 되었습니다.");
+		    });
+    	}
+    	/*optionfactory.update({
     		id:$scope.optionList
     	}).$promise.then(function(){
             alert("변경 되었습니다");
     		$mdDialog.hide();
-        });
+        });*/
     }
     $scope.cancel = function() 
 	{
@@ -1051,7 +1070,7 @@ mall.controller("OptionInsertController", function($scope, $mdDialog, optionfact
 		
 		if($scope.option.o_field_name_txt!=null && $scope.option.o_value!=null) //제목과 값이 모두 적혀있을경우
 		{
-			optionfactory.save({option:$scope.option});	
+			optionfactory.save({option:$scope.option, type:'insert'});	
 		}
 		alert("추가 되었습니다");
 		$mdDialog.hide();
@@ -1122,7 +1141,7 @@ mall.controller("OptionDropController", function($scope, $mdDialog, optionfactor
     	if($scope.option.o_field_name_txt!=null && $scope.option.o_value!=null) //제목과 값이 모두 적혀있을경우
 		{
 			$scope.option.o_select_box = option_select_values;
-			optionfactory.save({option:$scope.option});
+			optionfactory.save({option:$scope.option, type:'drop'});
 			alert("등록 되었습니다");
 			$mdDialog.hide();	
 		}

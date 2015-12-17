@@ -29,7 +29,6 @@ class MallOptionController extends Controller{
 
 	public function store() //서버에 상품 저장
 	{
-
 		$this->option->OptionInsert(Request::input('option'),Request::input('type'));
 	}
 
