@@ -8,6 +8,7 @@
 <link rel="stylesheet" type="text/css" href="{{url('bower_components/bootstrap/dist/css/bootstrap.css')}}">	
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <link rel="stylesheet" type="text/css" href="{{url('css/mall.css')}}">
+<link rel="stylesheet" type="text/css" href="{{url('css/view.css')}}">
 
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -28,7 +29,7 @@
 	
 </head>
 <body ng-app="MallApp">
-	<div ng-view></div>
-	<!-- <item-view></item-view> -->
+	<!-- <div ng-view></div> -->
+	<item-view></item-view>
 </body>
 </html>

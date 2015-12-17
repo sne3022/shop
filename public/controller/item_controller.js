@@ -953,12 +953,12 @@ mall.controller("OptionEditController", function($scope ,$mdDialog, optionfactor
 		    	alert("변경 되었습니다.");
 		    });
     	}
-    	optionfactory.update({
+    	/*optionfactory.update({
     		id:$scope.optionList
     	}).$promise.then(function(){
             alert("변경 되었습니다");
     		$mdDialog.hide();
-        });
+        });*/
     }
     $scope.cancel = function() 
 	{
