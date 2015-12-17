@@ -31,6 +31,8 @@ class ItemService implements IItem{
 		else if($type==3)
 		{
 			$itemObj = item::find($item['p_code']);
+			dd($item);
+
 			$itemObj->fill($item);
 			$itemObj->save();
 		}

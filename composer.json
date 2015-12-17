@@ -20,7 +20,10 @@
         ],
         "psr-4": {
             "sneboard_shop\\": "app/"
-        }
+        },
+        "files": [
+            "app/http/helper.php"
+        ]
     },
     "autoload-dev": {
         "classmap": [
