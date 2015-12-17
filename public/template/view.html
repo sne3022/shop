@@ -1,0 +1,18 @@
+<div class="mall_list">
+	<ul class="mall_list_contents">
+		<li ng-repeat="item in totalItems track by $index">
+		    <a href="#{%item.p_idx%}" ng-click="detail(item.p_code)"> 
+		     <img ng-src="{%item.p_big_img%}" width="255px" height="300px"><br>
+				<div style="color:#333; width:255px; text-align:center">
+				{%item.p_title%}<br>
+				<span class="price">{%item.p_price%}</span>원
+				</div>
+			</a>
+		</li>	
+	</ul>
+</div>
+<div class="pagin">
+	<pagination total-items="totalItemNumber" ng-model="currentPage"
+			items-per-page="itemperpage" ng-change="pageChanged()">
+	</pagination>
+</div>
