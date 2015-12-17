@@ -925,14 +925,12 @@ mall.controller("OptionEditController", function($scope ,$mdDialog, optionfactor
 				}
 				else
 				{	
-					if(value.o_type=='default' && value.o_field_name_txt=='상품명')
-					{	
-						$scope.item.p_title = value.o_value; 
-						$scope.item.p_code = value.o_code;
-					}
-					else if(value.o_type=='default' && value.o_field_name_txt=='가격')
+					$scope.item.p_code = value.o_code;
+					if(value.o_field_name_txt=='상품명')	
+					$scope.item.p_title = value.o_value; 
+					else if(value.o_field_name_txt=='가격')
 					$scope.item.p_price = value.o_value;
-					else if(value.o_type=='default' && value.o_field_name_txt=='수량')
+					else if(value.o_field_name_txt=='수량')
 					$scope.item.p_quantity = value.o_value;
 					return true;
 				}
@@ -947,7 +945,7 @@ mall.controller("OptionEditController", function($scope ,$mdDialog, optionfactor
 
     $scope.update = function()
     {	  
-    	if($scope.item.p_title!=null)
+    	if($scope.item.p_title!=null || $scope.item.p_price!=null || $scope.item.p_quantity)
     	{
     		mallfactory.update({
 		    		id:$scope.item, type:'default'

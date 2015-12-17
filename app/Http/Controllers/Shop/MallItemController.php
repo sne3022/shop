@@ -29,14 +29,20 @@ class MallItemController extends Controller{
 	public function update()
 	{
 		$itemObj = Request::input('id');
+		dd(Request::input('type'));
 
-		if(Request::input('type')=='only'|| Request::input('type')=='defalut')
+		if(Request::input('type')=='only')
 		{
 			$this->item->ItemUpdate($itemObj,1);
 		}
 		else if(Request::input('type')=='multiple')
 		{
 			$this->item->ItemUpdate($itemObj,2);
+		}
+
+		else if(Request::input('type')=='defalut')
+		{
+			
 		}
 		
 	}

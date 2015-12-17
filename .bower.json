@@ -1,8 +1,8 @@
 {
   "name": "sneboard-shop",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main":[],
-  "ignore": ["bootstrap","config","database", "resources", 
+  "ignore": ["bootstrap","config","database", 
              "tests", "app\\User.php", "app\\Console", "app\\Events", 
              "app\\Exceptions", "app\\Jobs", "app\\Jobs", "app\\Listeners",
              "app\\Ppolicies"
