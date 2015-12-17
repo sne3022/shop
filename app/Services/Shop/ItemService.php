@@ -15,7 +15,7 @@ class ItemService implements IItem{
 	{	
 		if($type==1)
 		{
-			$itemObj =item::find($item['p_idx']);
+			$itemObj =item::find($item['p_code']);
 			$itemObj->fill($item);
 			$itemObj->save();
 		}
@@ -27,7 +27,12 @@ class ItemService implements IItem{
 					'p_order'=>$itemArray['p_order']
 				]);
 			}
-			
+		}
+		else if($type==3)
+		{
+			$itemObj = item::find($item['p_code']);
+			$itemObj->fill($item);
+			$itemObj->save();
 		}
 	}
 	

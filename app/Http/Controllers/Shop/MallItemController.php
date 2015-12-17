@@ -29,7 +29,6 @@ class MallItemController extends Controller{
 	public function update()
 	{
 		$itemObj = Request::input('id');
-		dd(Request::input('type'));
 
 		if(Request::input('type')=='only')
 		{
@@ -40,9 +39,9 @@ class MallItemController extends Controller{
 			$this->item->ItemUpdate($itemObj,2);
 		}
 
-		else if(Request::input('type')=='defalut')
+		else if(Request::input('type')=='default')
 		{
-			
+			$this->item->ItemUpdate($itemObj,3);
 		}
 		
 	}

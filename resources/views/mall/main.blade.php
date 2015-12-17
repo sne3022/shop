@@ -28,9 +28,8 @@
 	
 </head>
 <body ng-app="MallApp">
-	<div ng-view>
-	</div>
-
-	<!-- <item-view></item-view> -->
+	<!-- <div ng-view>
+	</div> -->
+	<item-view></item-view>
 </body>
 </html>

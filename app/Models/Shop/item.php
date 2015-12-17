@@ -17,7 +17,7 @@ class item extends Model
 		                        'p_upload_idx',
 	);
 
-	protected $primaryKey = "p_idx";
+	protected $primaryKey = 'p_code';
 	protected $table="sb_mall_product";
 	public $timestamps = false;
 }
