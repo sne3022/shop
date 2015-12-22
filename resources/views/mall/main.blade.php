@@ -14,7 +14,7 @@
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script src="{{shopPath('mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js')}}"></script>
-
+<script src="{{shopPath('ckeditor/ckeditor.js')}}"></script>
 <script src="{{shopPath('bower_components/angular/angular.js')}}"></script>	
 <script src="{{shopPath('bower_components/angular-animate/angular-animate.js')}}"></script>
 <script src="{{shopPath('bower_components/angular-material/angular-material.js')}}"></script>
