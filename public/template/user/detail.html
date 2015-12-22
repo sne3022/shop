@@ -40,13 +40,12 @@
       <ul class="content-btn">
 
         <li ng-if="optionUse!='y'" class="content-p-quantity">
-               <span>
-                <p></p>
+               <div class="p-quantity-wrap">
                 <input id="quantity" type="text" ng-model="quantity" readonly="true">
                 <img ng-src="../public/image/btn_up.gif" class="p_btn_up" ng-click="quantityUp(d_price)">
                 <img ng-src="../public/image/btn_down.gif" class="p_btn_down" ng-click="quantityDown(d_price)">
                 <span class="quantity_cal">{%d_price%}원</span>
-              </span> 
+              </div> 
         </li>
 
         <li ng-if="optionUse=='y'" class="content-o-quantity">

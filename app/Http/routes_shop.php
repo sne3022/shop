@@ -1,6 +1,7 @@
 <?php 
 
-Route::controller("shop", "Shop\TestController");
+Route::controller("shop", "Shop\ShopController");
+
 Route::resource("mall", "Shop\MallItemController");
 Route::resource("option", "Shop\MallOptionController");
 

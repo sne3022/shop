@@ -1,0 +1,54 @@
+<div class="item-setting-wrap" >
+	<div class="item-setting-left" >
+		<div class="setting-left-top">
+			<span>LIST PAGE</span>
+		</div>
+		<ul ng-repeat="item in totalItems">
+			<li>
+				<img ng-src="{%item.p_big_img%}" width="100px"; height="100px">
+			</li>
+		</ul>
+		<div style="clear:both; width:90%; margin: auto;">
+			<md-input-container flex>
+              <md-select ng-model="user.selectOption" placeholder="가로 X 세로" style="background: white; height:50px; text-align: center; font-size:28px;" ng-change='changeImgNumber(user.selectOption)'>
+                <md-option value="3">3X1</md-option>
+                <md-option value="6">3X2</md-option>
+                <md-option value="9">3X3</md-option>
+                <md-option value="12">3X4</md-option>
+                <md-option value="15">3X5</md-option>
+                <md-option value="16">3X6</md-option>
+                <md-option value="21">3X7</md-option>
+                <md-option value="24">3X8</md-option>
+                <md-option value="27">3X9</md-option>
+                <md-option value="30">3X10</md-option>
+              </md-select>
+             </md-input-container>
+		</div>
+	</div>
+
+	<!-- <div class="item-setting-right" >
+		<div class="setting-right-top">
+			<span>DETAIL PAGE</span>
+		</div>
+		<div class="setting-right-content" >
+			<div class="right-content-img">
+				<img ng-src="../public/image/noImage.png">
+			</div>
+			<div class="right-content-txt">
+				<ul>
+					<li>
+						<span class="content-txt-title"></span>
+					</li>
+					<li>
+						<span class="content-txt-title"></span>
+					</li>
+					<li>
+						<span class="content-txt-title"></span>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div> -->
+
+</div>
+

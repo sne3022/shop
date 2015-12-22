@@ -4,14 +4,12 @@
 	height:500px;
 	position:relative;
 }
-
-
 .mall_list_contents{
 	padding-left:8%;
 }
 .mall_list_contents li{
 	width:320px;
-	height:420px;
+	height:360px;
 	float:left;
 	position: relative;
 }

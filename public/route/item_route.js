@@ -1,41 +1,47 @@
-var mallApp = angular.module("MallApp", ["ngRoute",'mallController', "MallService", "ngMaterial"]);
-mallApp.constant('baseUrl', '/shop/public/');
+var mallApp = angular.module("sneboard", ["ngRoute",'mallController', "MallService", "ngMaterial", "config"]);
 
 /* config -> 환경설정. routeProvide */
-mallApp.config(['$routeProvider', "baseUrl", routeProvide]);
+mallApp.$inject=['configService'];
 
-function routeProvide($routeProvider, baseUrl)
-{
 
-    $routeProvider.when("/list", {
-		templateUrl: baseUrl+"template/user/list.html", 
-		controller: "ItemListController" 								
-    }).when("/detail/:id", {
-    	templateUrl: baseUrl+"template/user/detail.html", 
-		controller: "ItemDetailController" 		
-    }).when("/cart", {
-    	templateUrl: baseUrl+"template/user/shoppingback.html",
-    	controller: "ItemShoppingbackController",
-    }).when("/admin", {
-        templateUrl: baseUrl+"template/admin/left_manage.html",
-        controller: "AdminCtrl"
-    }).
-    otherwise({
-    	redirectTo:'/list'
+angular.element(document).ready(function(){
+    $.get('/config/angular-config.json', function(configData){
+
+        angular.module('config').config(function(configServiceProvider){
+            configServiceProvider.config(configData);
+        });
+        
+        mallApp.config(function($routeProvider){
+             $routeProvider.when("/list", {
+                templateUrl: configData.shopPublicUrl+"template/user/list.html",
+                controller: "ItemListController"                                
+            }).when("/detail/:id", {
+                templateUrl: configData.shopPublicUrl+"template/user/detail.html", 
+                controller: "ItemDetailController"      
+            }).when("/cart", {
+                templateUrl: configData.shopPublicUrl+"template/user/shoppingback.html",
+                controller: "ItemShoppingbackController",
+            }).when("/admin", {
+                templateUrl: configData.shopPublicUrl+"template/admin/left_manage.html",
+                controller: "AdminCtrl"
+            }).
+            otherwise({
+                redirectTo:'/list'
+            });
+        });
+        angular.bootstrap(document, ['sneboard']);
     });
-}
+});
 
 
 /* 서비스 */
 
 var mallService = angular.module("MallService", ["ngResource"]);
 /* 모듈명은 fileService 를 사용할수 있는 이유는 서비스에 등록 되어있어서.*/
+mallService.$inject=["$resource","configService"];
 
-mallService.constant('baseUrl','/shop/public/');
-mallService.$inject=["$resource","baseUrl"];
-
-mallService.factory('mallfactory', function($resource, baseUrl){
-    var resource = $resource(baseUrl+'mall/:id', {id:'@id'}, 
+mallService.factory('mallfactory', function($resource, configService){
+    var resource = $resource(configService.shopBaseUrl+'mall/:id', {id:'@id'}, 
         {update : {method:'PUT'}
         }
     );
@@ -108,8 +114,8 @@ mallService.factory('listService', function(){
     };
 });
 
-mallService.factory('optionfactory', function($resource, baseUrl){
-    var resource = $resource(baseUrl+'option/:id', {id:'@id'}, 
+mallService.factory('optionfactory', function($resource, configService){
+    var resource = $resource(configService.shopBaseUrl+'option/:id', {id:'@id'}, 
         {update : {method:'PUT'}
         }
     );
@@ -117,8 +123,8 @@ mallService.factory('optionfactory', function($resource, baseUrl){
 });
 
 
-mallService.factory('uploadfactory', function($resource, baseUrl){
-    var resource = $resource(baseUrl+'upload/:id', {id:'@id'},
+mallService.factory('uploadfactory', function($resource, configService){
+    var resource = $resource(configService.shopBaseUrl+'upload/:id', {id:'@id'},
         {
             update : {method:'PUT'},
             get : {method:'GET', isArray:true}
@@ -127,6 +133,4 @@ mallService.factory('uploadfactory', function($resource, baseUrl){
     return resource;  //module/:id 에서 id 의 값에 따라  @id의 값이 결정된다.
 });
 /* 서비스 끝 */
-
-/* 컨트롤러 */
 

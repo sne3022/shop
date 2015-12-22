@@ -11,14 +11,12 @@ list-style: none;
 	height:500px;
 	position:relative;
 }
-
-
 .mall_list_contents{
 	padding-left:8%;
 }
 .mall_list_contents li{
 	width:320px;
-	height:420px;
+	height:360px;
 	float:left;
 	position: relative;
 }
@@ -29,6 +27,7 @@ list-style: none;
 }
 
 .list-title{
+	font-size:24px;
 	color:#333; 
 	width:255px;
 	height:300px;
@@ -105,8 +104,8 @@ list-style: none;
 
 .bigImg{
 	/*max-width: 630px;*/
-	width:100%; 
-	height:450px;
+	width:100%;
+	min-height:200px;
 	text-align: center;
 }
 
@@ -167,7 +166,6 @@ display: inline;
 	color:#555555;
 }
 .contents ul li{
-	height:47px;
 }
 
 .quantity{
@@ -178,6 +176,10 @@ display: inline;
 
 .p-quantity{
 	position: relative;
+}
+
+.p-quantity-wrap{
+	padding: 10px 0px;
 }
 
 .quantity_txt{
@@ -253,7 +255,7 @@ display: inline;
 }
 
 .p_totalMoney{
-	padding-top:10px;
+	padding:10px 0px;
 	text-align: right;
 } 
 .totalMoney{
@@ -267,7 +269,6 @@ display: inline;
 }
 
 .content-btn{
-	padding-top:10px;
 	max-height: 250px;
 }
 /* end */
@@ -460,7 +461,7 @@ md-checkbox .md-icon {
 	font-size:50px;
 }
 .edit-dialog-content{
-	width:900px;
+	width:1050px;
 	min-height: 100px; 
 }
 .order-font{
@@ -497,4 +498,59 @@ md-checkbox .md-icon {
 	padding-top:6px;
 }
 
+/* itemsetting.html */
 
+.item-setting-wrap{
+	width:100%; height:610px; background:#eee;
+}
+.item-setting-left{
+	width:382px; height:610px; float:left;
+}
+.setting-left-top{
+	margin: auto; 
+	width:90%; 
+	height:50px; 
+	background:white; 
+	text-align:center;
+	padding-top:10px; 
+	font-size:20px; 
+	font-weight: bold; 
+	font-family:Tahoma;
+}
+
+.item-setting-left ul{
+	margin:0; padding-left:10.5px;
+}
+.item-setting-left ul li{
+	float:left; 
+	padding:10px;
+}
+
+.item-setting-right{
+	width:764px; height:610px; float:left; border-left:10px solid white; 
+}
+.setting-right-top{
+	margin: auto; 
+	width:95%; 
+	height:50px; 
+	background:white; 
+	text-align:center;
+	padding-top:10px; 
+	font-size:20px; 
+	font-weight: bold; 
+	font-family:Tahoma;
+}
+.setting-right-content{
+	padding-top:10px;
+	width:95%; margin:auto;
+}
+.right-content-img{
+	width:368px; height:440px; background: blue; float:left;
+}
+.right-content-img img{
+	width:368px; height:440px;
+}
+
+.right-content-txt{
+	margin-left:24px;width:324px; height:440px; background: green; float:left;
+}

@@ -17,12 +17,14 @@
           </md-content>
 
            <md-content layout-padding>
-            <p>&nbsp;상품 이미지</p>
+            <p>&nbsp;상품 이미지 (300 X 300)</p> 
+            <img ng-src="{%DefalutImage%}" width="300" height="300">
             <fileupload></fileupload> 
           </md-content> 
 
           <md-content layout-padding>
             <p>&nbsp;상품설명</p>
+
             <textarea id="contents"></textarea> 
           </md-content>
 
@@ -38,3 +40,4 @@
           <md-button class="md-raised md-primary" ng-click="itemUpdate()">상품수정</md-button>
         </md-content>
 </div>
+

@@ -1,3 +1,5 @@
+
+
 <md-dialog>
     <md-toolbar>
       <div class="md-toolbar-tools">
@@ -11,8 +13,10 @@
 
     <!-- optontion modify --> 
     <md-dialog-content>
+
     	<div class="md-dialog-content edit-dialog-content">
     		<ul ng-repeat="option in optionList track by $index | orderBy:orderProperty">
+
     		<li id="{%option.o_idx%}">
     			<md-content layout layout-sm="column">
     				<md-input-container>
@@ -30,15 +34,92 @@
               </span>
             </md-input-container>
 
-            <md-input-container flex ng-if="option.o_field_name!='옵션'">
+            <md-input-container flex ng-if="option.o_field_name!='옵션'" style="padding-right:10px">
               <h4 class='option-other-font'>상품 구분</h4>
               <input ng-model="option.o_field_name_txt" aria-label=" ">  
             </md-input-container>
 
-	    			<md-input-container flex ng-if="option.o_field_name!='옵션'">
+
+            <md-input-container style="padding-right:10px; padding-top:45px">
+              <md-select ng-model="option.o_field_name_fontfamily" aria-label=" ">                   
+                <md-option value="굴림">굴림</md-option>
+                <md-option value="굴림체">굴림체</md-option>
+                <md-option value="돋움">돋움</md-option>
+                <md-option value="돋움체">돋움체</md-option>
+                <md-option value="바탕">바탕</md-option>
+                <md-option value="바탕체">바탕체</md-option>
+                <md-option value="궁서">궁서</md-option>
+                <md-option value="궁서체">궁서체</md-option>
+                <md-option value="나눔고딕">나눔고딕</md-option>
+              </md-select>
+            </md-input-container>
+
+            <md-input-container style="padding-right:10px; padding-top:45px;">
+              <md-select ng-model="option.o_field_name_fontsize" aria-label=" ">                   
+                <md-option value="6pt">6pt</md-option>
+                <md-option value="8pt">8pt</md-option>
+                <md-option value="9pt">9pt</md-option>
+                <md-option value="10pt">10pt</md-option>
+                <md-option value="11pt">11pt</md-option>
+                <md-option value="14pt">14pt</md-option>
+                <md-option value="18pt">18pt</md-option>
+                <md-option value="24pt">24pt</md-option>
+                <md-option value="35pt">36pt</md-option>
+              </md-select>
+            </md-input-container>
+
+
+
+            <md-input-container style="padding-right:10px; padding-top:45px">
+               <div style=' width:110px; float:left;'>
+                <div class="input-group demo2" id="title {%$index%}">
+                    <input style="width:69px; height:30px; border:1px solid #ccc; border-top-left-radius: 4px; border-bottom-left-radius: 4px" ng-model="option.o_field_name_color" type="text"  class="form-control colorfont" aria-label=" "/>
+                    <span class="input-group-addon"><i></i></span>
+                </div>
+               </div>
+            </md-input-container>
+
+	    			<md-input-container flex ng-if="option.o_field_name!='옵션'" style="padding-right:10px">
 	    				<h4 class='option-other-font'>값</h4>
 	    				<input ng-model="option.o_value" aria-label=" ">
 	    			</md-input-container>
+
+             <md-input-container style="padding-right:10px; padding-top:45px ">
+              <md-select ng-model="option.o_value_fontfamily" aria-label=" ">                   
+                <md-option value="굴림">굴림</md-option>
+                <md-option value="굴림체">굴림체</md-option>
+                <md-option value="돋움">돋움</md-option>
+                <md-option value="돋움체">돋움체</md-option>
+                <md-option value="바탕">바탕</md-option>
+                <md-option value="바탕체">바탕체</md-option>
+                <md-option value="궁서">궁서</md-option>
+                <md-option value="궁서체">궁서체</md-option>
+                <md-option value="나눔고딕">나눔고딕</md-option>
+              </md-select>
+            </md-input-container>
+
+            <md-input-container style="padding-right:10px; padding-top:45px" >
+              <md-select ng-model="option.o_value_fontsize" aria-label=" ">
+                <md-option value="6pt">6pt</md-option>
+                <md-option value="8pt">8pt</md-option>
+                <md-option value="9pt">9pt</md-option>
+                <md-option value="10pt">10pt</md-option>
+                <md-option value="11pt">11pt</md-option>
+                <md-option value="14pt">14pt</md-option>
+                <md-option value="18pt">18pt</md-option>
+                <md-option value="24pt">24pt</md-option>
+                <md-option value="35pt">36pt</md-option>
+              </md-select>
+            </md-input-container>
+
+            <md-input-container style="padding-right:10px; padding-top:45px">
+               <div style='width:110px; float:left;'>
+                <div class="input-group demo2" id="value {%$index%}">
+                    <input style="width:69px; height:30px; border:1px solid #ccc; border-top-left-radius: 4px; border-bottom-left-radius: 4px" ng-model="option.o_value_color" type="text"  class="form-control colorfont" aria-label=" "/>
+                    <span class="input-group-addon"><i></i></span>
+                </div>
+               </div>
+            </md-input-container>
 
 	    			<md-input-container>
 	    				<h4 class='option-other-font'>표시상태</h4>
@@ -68,3 +149,4 @@
    	</md-dialog-actions>
     <!-- end -->
 </md-dialog>
+

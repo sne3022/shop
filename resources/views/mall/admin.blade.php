@@ -2,7 +2,6 @@
 <html>
 <head>
 	<title></title>
-
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{{shopPath('bower_components/angular-material/angular-material.css')}}">		
 <link rel="stylesheet" type="text/css" href="{{shopPath('bower_components/bootstrap/dist/css/bootstrap.css')}}">	
@@ -29,10 +28,8 @@
 <script src="{{shopPath('route/item_route.js')}}"></script>
 <script src="{{shopPath('controller/item_controller.js')}}"></script>
 <script src="{{shopPath('bower_components/ng-file-upload/ng-file-upload.js')}}"></script>
-
 </head>
 <body>
 	<div ng-view></div>
-	<!-- <item-view></item-view> -->
 </body>
 </html>
