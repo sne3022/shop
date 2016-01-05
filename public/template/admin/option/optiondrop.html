@@ -19,7 +19,7 @@
                <span class="drop-dialog-content-code">{%option.o_code%}</span>
             </md-input-container>
           </md-content>     
-	    			<md-input-container flex>
+	    			<md-input-container>
 	    				<h4>옵션 구분</h4>
 	    				<input ng-model="option.o_field_name_txt" aria-label=" ">
 	    			</md-input-container>
@@ -30,21 +30,33 @@
     		</li>
 
         <li class="add_input">
+           <md-content layout-gt-sm="row" layout-padding>
             <md-input-container flex="30">
-                  <h4>값</h4>
-              <input class="option_number" aria-label=" ">
+              <h4>값</h4>
+              <input ng-model="option.o_value" aria-label=" ">
+            </md-input-container>
+            <md-icon-button ng-click="add()" class="md-raised md-primary">추가</md-button>
+           </md-content>
+           
+            <md-input-container flex="30">
+                  <md-select ng-model="dd" placeholder="클릭하세요.">
+                    <md-option ng-repeat="option in addOptionList"></md-option>
+                  </md-select>
             </md-input-container>
         </li>
 
-        <li layout="row" flex="100" layout-align="start center">
-          <md-button ng-click="add()" class="md-raised md-primary">추가</md-button>
-          <span flex></span>
+        <li layout="row" flex="100" layout-align="center center">
+          <md-content
+          
+        </li>
+
+        <li layout="row" flex="100" layout-align="center center">
           <md-button ng-click="cancel()" class="md-raised">취소
           </md-button>
           <md-button ng-click="insert()" class="md-raised">추가
           </md-button>
         </li>
-    		</ul>	
+    	 </ul>	
     	</div>
     </md-dialog-contents>
 </md-dialog>

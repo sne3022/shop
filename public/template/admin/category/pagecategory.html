@@ -1,0 +1,131 @@
+
+<div flex="100" layout="row" style="padding:15px; background:#eee">
+	<div flex="30" layout="column" style="background:#fff; padding:15px;float:left; border-radius: 10px; min-height:174px;"> 
+		<div flex="100" layout="row">
+			<h1>대분류</h1> 	
+		</div>
+		<hr/>
+		<div flex="100">
+			<ul ng-repeat="category in left_categoryList" style="color:#428bca;">
+				<li class="left_category" style="cursor:pointer; width:88%; height:34px; float:left; line-height:2.5" ng-click="leftClick($event,category.c_idx,category.c_name,category.c_group, category.c_url, category.c_description, category.c_status)">{%category.c_name%}
+				</li>
+				<i flex="20" class="material-icons" ng-click="categoryDelete(category,'left')"
+				style="cursor:pointer; background: rgb(244,67,54);; color:#fff; font-size:34px;">remove
+				</i>
+			</ul>
+		</div>
+
+		<div>
+			<div class="form-group" style="position:relative;">
+		      <input type="text" ng-model="left_categoryInput.c_name" class="form-control" style="width:99%; float:left;">
+		      <i class="material-icons" ng-click="left_categoryInsert()" 
+		      style="cursor:pointer; background: rgb(63,81,181); color:#fff; font-size:34px; position:absolute; right:1px;">add</i>
+		    </div>
+		</div>
+	</div> <!-- 대분류 끝 -->
+
+
+	<div flex="5" layout="column" layout-align="center center" style="float:left;">
+		<i class="material-icons" style="font-size:40px; background:#fff; color:rgb(63,81,181); border-radius:10px;">forward</i>
+	</div>
+
+	<div flex="30" layout="column" style="background:#fff; padding:15px; float:left; border-radius: 10px;"> 
+		<div flex="100" layout="row">
+			<h1>중 분류</h1> 
+		</div>
+		<hr>
+		<div flex="100">
+			<ul ng-repeat="category in center_categoryList" style="color:#428bca;">
+				<li class="center_category" style="cursor:pointer; width:88%; height:34px; float:left;line-height:2.5" ng-click="centerClick($event,category.c_idx,category.c_name,category.c_group, category.c_url, category.c_description, category.c_status)">{%category.c_name%}
+				</li>
+				<i flex="20" class="material-icons" ng-click="categoryDelete(category, 'center')"
+				style="cursor:pointer; background: rgb(244,67,54);; color:#fff; font-size:34px;">remove
+				</i>
+			</ul>
+		</div>
+		<div>
+			<div class="form-group" style="position:relative;">
+		      <input type="text" ng-model="center_categoryInput.c_name" class="form-control" style="width:99%; float:left;">
+		      <i class="material-icons" ng-click="center_categoryInsert()" 
+		      style="cursor:pointer; background: rgb(63,81,181); color:#fff; font-size:34px; position:absolute; right:1px;">add</i>
+		    </div>
+		</div>
+	</div><!-- 중분류 끝 -->
+
+
+	<div flex="5" layout="column" layout-align="center center" style="float:left;">
+		<i class="material-icons" style="font-size:40px; background:#fff; color:rgb(63,81,181); border-radius:10px;">forward</i>
+	</div>
+
+	<div flex="30" layout="column" style="background:#fff; padding:15px; float:left; border-radius: 10px;"> 
+		<div flex="100" layout="row">
+			<h1>소 분류</h1> 
+		</div>
+		<hr>
+		<div flex="100">
+			<ul ng-repeat="category in right_categoryList" style="color:#428bca;">
+				<li class="right_category" style="cursor:pointer; width:88%; height:34px; float:left;line-height:2.5" ng-click="rightClick($event,category.c_idx,category.c_name,category.c_group, category.c_url, category.c_description, category.c_status)">{%category.c_name%}
+				</li>
+				<i flex="20" class="material-icons" ng-click="categoryDelete(category,'right')"
+				style="cursor:pointer; background: rgb(244,67,54);; color:#fff; font-size:34px;">remove
+				</i>
+			</ul>
+		</div>
+		<div>
+			<div class="form-group" style="position:relative;">
+		      <input type="text" ng-model="right_categoryInput.c_name" class="form-control" style="width:99%; float:left;">
+		      <i class="material-icons" ng-click="right_categoryInsert()" 
+		      style="cursor:pointer; background: rgb(63,81,181); color:#fff; font-size:34px; position:absolute; right:2px;">add</i>
+		    </div>
+		</div>
+	</div>
+</div>
+
+<div layout="column" layout-align="center center" style="height:50px; background:#eee">
+	<i class="material-icons" style="font-size:40px; background:#fff; color:rgb(63,81,181); border-radius:10px; -ms-transform: rotate(90deg); -webkit-transform: rotate(90deg); transform:rotate(90deg);">forward</i>
+</div>
+
+<div flex="100" layout-align="center center" layout="row" style="background:#eee; height:700px;">
+	<div flex="30" style="background:#fff; border-radius: 10px; padding:15px;">
+		<H1>상세정보</H1>
+		<div class="form-group">
+	      <label>분류 번호</label>
+	      <input type="text" ng-model="bottomCategory.c_idx" class="form-control" readonly="false">
+	    </div>
+
+		<div class="form-group">
+	      <label>현재 분류</label>
+	      <input type="text" ng-model="bottomCategory.c_category" class="form-control" readonly="false">
+	    </div>
+
+		<div class="form-group">
+	      <label>분류 URL</label>
+	      <input type="text" ng-model="bottomCategory.c_url" class="form-control" readonly="false">
+	    </div>
+
+	    <div class="form-group">
+	      <label>분류 명</label>
+	      <input type="text" ng-model="bottomCategory.c_name" class="form-control" >
+	    </div>
+
+	    <div class="form-group">
+	      <label>분류 설명</label>
+	      <input type="text" ng-model="bottomCategory.c_description" class="form-control">
+	    </div>
+
+	    <div class="form-group">
+	      <label>표시 상태</label>
+	      <md-radio-group ng-model="bottomCategory.c_status">
+	      	  <md-radio-button value="y" class="md-primary">표시함</md-radio-button>
+		      <md-radio-button value="n">표시안함</md-radio-button>
+	      </md-radio-group>
+	    </div>
+
+	    <div layout="row" layout-align="center center">
+	    	<md-button class="md-raised md-primary" ng-click="bottomCategorySetting()">설정</md-button>
+	    </div>
+    </div>
+</div>
+
+
+

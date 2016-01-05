@@ -1,5 +1,7 @@
 var mall = angular.module('mallController', ['ui.bootstrap', 'ngMaterial', 'ngFileUpload', 'ngSanitize']);
-mall.$inject = ["$scope","$routeParams","configService","mallfactory", "optionfactory", "detailService", "listService", "Upload", "uploadfactory"];
+mall.$inject = ["$scope","$routeParams","configService","mallfactory", 
+                "optionfactory", "detailService", "listService", 
+                "Upload", "uploadfactory", "categoryfactory"];
 
 mall.controller("AdminCtrl", function($scope){
 	
@@ -7,7 +9,12 @@ mall.controller("AdminCtrl", function($scope){
 	$scope.fileName = null;
 	$scope.normal = 'manage';
 	$scope.control = function(number){
-		if(number==1)
+
+		if(number==0)
+		{
+			$scope.normal = 'category';
+		}
+		else if(number==1)
 		{
 			$scope.normal = 'insert';  
 		}
@@ -430,12 +437,86 @@ mall.controller("ItemShoppingbackController", function($scope, $routeParams, det
 
 
 /******************************************* 상품 등록 ****************************************/
-mall.directive('itemInsert', function(configService, $document, mallfactory, optionfactory){
+mall.directive('itemInsert', function(configService, $document, mallfactory, optionfactory, categoryfactory){
 	return {
 		restrict: 'E',
 		templateUrl: configService.shopPublicUrl+'template/admin/item/iteminsert.html',
 		link: function($scope, element, attr){	
 			var mallLength;
+			$scope.leftCategory="null";
+			$scope.centerCategory="null";
+			$scope.rightCategory="null";
+
+
+			$scope.left_categoryInput ={
+				c_name:"",
+				c_depth:0,
+				c_parent:0,
+				c_group:""
+			}
+
+			$scope.center_categoryInput = {
+				c_name:"",
+				c_depth:1,
+				c_group:""
+			}
+
+			$scope.right_categoryInput = {
+				c_name:"",
+				c_depth:2,
+				c_group:""
+			}
+
+			left_getCategorys(0);
+
+
+
+			//대분류 데이터 가져오기
+			function left_getCategorys(n)
+			{
+				$scope.left_categoryList = categoryfactory.get({id:n});
+			}
+			//중분류 데이터 가져오기
+			function center_getCategorys(n)
+			{
+				$scope.center_categoryList = categoryfactory.get({id:n});
+			}
+			//소분류 데이터 가져오기
+			function right_getCategorys(n)
+			{
+				$scope.right_categoryList = categoryfactory.get({id:n});
+			}
+
+
+			$scope.leftChange = function()
+			{
+				$scope.leftPath = $scope.leftCategory.c_name;
+				$scope.totalPosition = $scope.leftPath;
+
+				$scope.center_categoryInput.c_parent = $scope.leftCategory.c_idx;
+				$scope.center_categoryInput.c_group = $scope.leftCategory.c_group;
+				$scope.center_categoryList = categoryfactory.get({id:$scope.center_categoryInput.c_parent}); /* 중분류 데이터 가져오기 */
+				
+				$scope.right_categoryList = null; //소분류 리스트 초기화
+				$scope.right_categoryInput.c_parent = null; //소분류 부모 초기화
+			}
+
+			$scope.centerChange = function()
+			{
+				$scope.centerPath = $scope.leftCategory.c_name+"/"+$scope.centerCategory.c_name;
+				$scope.totalPosition = $scope.centerPath;
+				$scope.right_categoryInput.c_parent = $scope.centerCategory.c_idx;
+				$scope.right_categoryInput.c_group = $scope.centerCategory.c_group;
+				$scope.right_categoryList = categoryfactory.get({id:$scope.right_categoryInput.c_parent});
+			}
+
+			$scope.rightChange = function()
+			{
+				$scope.totalPosition = $scope.centerPath+"/"+$scope.rightCategory.c_name;
+			}
+
+
+
 			$scope.DefalutImage = '../public/image/noImage.png';
 			mallfactory.query().$promise.then(function(result)
 			{
@@ -482,6 +563,7 @@ mall.directive('itemInsert', function(configService, $document, mallfactory, opt
 
 				$scope.item.p_status = $scope.p_status;//이미지 표시
 				$scope.item.p_order = mallLength+1; //상품 개수
+				$scope.item.p_position = $scope.totalPosition;
 				mallfactory.save({item:$scope.item});
 
 
@@ -918,21 +1000,21 @@ mall.controller("OptionEditController", function($scope ,$mdDialog, optionfactor
 {	
     
 	setTimeout(function(){
-    	$('.demo2').colorpicker().on('hidePicker', function(event)
+    	$('.field_colorpicker').colorpicker().on('hidePicker', function(event)
 	    {               
-	        var num = $(this).attr('id');
-	        
-	        if(num[0] == 'title')
-	        {
-	        	$scope.optionList[num-1].o_field_name_color = event.color.toHex();
-	        }
-	        else
-	        {
-	        	$scope.optionList[num-1].o_value_color = event.color.toHex();
-	        }
+	        	var index = $(this).attr('id');
+	        	$scope.optionList[index].o_field_name_color = event.color.toHex();
 
 	    });	
-    },450)	
+    },500)
+
+    setTimeout(function(){
+    	$('.val_colorpicker').colorpicker().on('hidePicker', function(event)
+	    {               
+	        	var index = $(this).attr('id');
+	        	$scope.optionList[index].o_value_color = event.color.toHex();
+	    });	
+    },500)	
     
     
 	var str = null;
@@ -982,7 +1064,6 @@ mall.controller("OptionEditController", function($scope ,$mdDialog, optionfactor
     	/*option에 기본값 변동 + product 기본값 변동 (동시) */
 		angular.forEach($scope.optionList, function(option)
 		{
-			
 			$scope.item.p_code = option.o_code;
 			if(option.o_field_name_txt=='상품명')	
 			$scope.item.p_title = option.o_value; 
@@ -1152,8 +1233,13 @@ mall.controller("OptionDropController", function($scope, $mdDialog, optionfactor
 		})
 	}
 
+
+
 	$scope.add = function()
-	{	var input_container = $("<md-input-container flex='30'>");
+	{	
+
+		
+		/*var input_container = $("<md-input-container flex='30'>");
 		var input_tag = $("<input>");
 		input_tag.addClass('option_number');
 		input_tag.attr("type","text");
@@ -1161,7 +1247,7 @@ mall.controller("OptionDropController", function($scope, $mdDialog, optionfactor
 		input_container.append(input_tag);
 		
 		$(".add_input").append(input_container);
-		$compile(input_container)($scope);
+		$compile(input_container)($scope);*/
 	}
 
 	$scope.cancel = function() 
@@ -1414,6 +1500,276 @@ mall.directive('itemSetting', function(configService, mallfactory){
 		    	getItems();
 		    }
 
+		}
+	}
+})
+
+mall.directive('pageCategory', function(configService, categoryfactory){
+	return {
+		restrict: 'E',
+		templateUrl: configService.shopPublicUrl+'template/admin/category/pagecategory.html',
+		link: function(scope, element, attr){	
+			
+			scope.url={
+				left_category:"",
+				center_category:"",
+				right_category:""
+			};
+			scope.bottomCategory ={
+				c_idx:"",
+				c_name:"",
+				c_url:"",
+				c_description:"",
+				c_category:"",
+				c_status:"y"
+			}
+
+			scope.left_categoryInput ={
+				c_name:"",
+				c_depth:0,
+				c_parent:0,
+				c_group:""
+			}
+
+			scope.center_categoryInput = {
+				c_name:"",
+				c_depth:1,
+				c_group:""
+			}
+
+			scope.right_categoryInput = {
+				c_name:"",
+				c_depth:2,
+				c_group:""
+			}
+
+			left_getCategorys(0);
+			
+			//상세정보 초기화
+			function bottomCategoryInit() 
+			{
+				scope.bottomCategory.c_idx="";
+				scope.bottomCategory.c_name="";
+				scope.bottomCategory.c_url="";
+				scope.bottomCategory.c_description="";
+				scope.bottomCategory.c_category="";
+				scope.bottomCategory.c_status="y";
+			}
+
+			//대분류 데이터 가져오기
+			function left_getCategorys(n)
+			{
+				scope.left_categoryList = categoryfactory.get({id:n});
+			}
+			//중분류 데이터 가져오기
+			function center_getCategorys(n)
+			{
+				scope.center_categoryList = categoryfactory.get({id:n});
+			}
+			//소분류 데이터 가져오기
+			function right_getCategorys(n)
+			{
+				scope.right_categoryList = categoryfactory.get({id:n});
+			}
+
+			/* 대 중 소 데이터 정의 */
+
+			
+			//대분류 클릭
+			scope.leftClick = function(event, category_parent, category_name, category_group, category_url, category_description, category_status)
+			{	
+				scope.bottomCategory.c_idx = category_parent; //분류 고유번호	
+				scope.url.left_category = category_name; //현재 분류
+				scope.bottomCategory.c_name = category_name; //분류 명
+				scope.bottomCategory.c_url = category_url; //분류url
+				scope.bottomCategory.c_category = scope.url.left_category; //분류 카테고리
+				scope.bottomCategory.c_description = category_description; //분류 설명
+				scope.bottomCategory.c_status = category_status;
+				
+				
+				$(".left_category").each(function()
+				{
+					$(".left_category").removeClass("category-click");
+				})
+				$(event.currentTarget).addClass("category-click");
+
+				scope.center_categoryInput.c_parent = category_parent;
+				scope.center_categoryInput.c_group = category_group;
+				scope.center_categoryList = categoryfactory.get({id:category_parent}); /* 중분류 데이터 가져오기 */
+				
+				scope.right_categoryList = null; //소분류 리스트 초기화
+				scope.right_categoryInput.c_parent = null; //소분류 부모 초기화
+			}
+
+			//중분류 클릭
+			scope.centerClick = function(event, category_parent, category_name, category_group, category_url, category_description, category_status)
+			{
+				scope.bottomCategory.c_idx = category_parent; 
+				scope.url.center_category = scope.url.left_category+"/"+category_name;
+				scope.bottomCategory.c_name = category_name;
+				scope.bottomCategory.c_url = category_url; 
+				scope.bottomCategory.c_category = scope.url.center_category;
+				scope.bottomCategory.c_description = category_description;
+				scope.bottomCategory.c_status = category_status;
+				
+
+				$(".center_category").each(function(){
+					$(".center_category").removeClass("category-click");
+				})
+				$(event.currentTarget).addClass("category-click");
+				
+				scope.right_categoryInput.c_parent = category_parent;
+				scope.right_categoryInput.c_group = category_group;
+				scope.right_categoryList = categoryfactory.get({id:category_parent});
+
+			}
+			//소분류 클릭
+			scope.rightClick = function(event, category_parent, category_name, category_group, category_url, category_description, category_status)
+			{
+				scope.bottomCategory.c_idx = category_parent;
+				scope.url.right_category = scope.url.center_category+"/"+category_name;
+				scope.bottomCategory.c_name = category_name;
+				scope.bottomCategory.c_url = configService.shopPublicUrl+category_parent;
+				scope.bottomCategory.c_category = scope.url.right_category;
+				scope.bottomCategory.c_description = category_description;
+				scope.bottomCategory.c_status = category_status;
+				
+
+				$(".right_category").each(function()
+				{
+					$(".right_category").removeClass("category-click");
+				})
+				$(event.currentTarget).addClass("category-click");
+			}
+
+
+
+			//대분류 추가
+			scope.left_categoryInsert = function()
+			{
+				if(scope.left_categoryInput.c_name!="")
+				{
+					categoryfactory.save({category:scope.left_categoryInput, category_status:"left", category_url:configService.shopPublicUrl});
+					setTimeout(function(){
+						left_getCategorys(0);
+						scope.center_categoryList = null; //초기화
+						scope.right_categoryList = null; //초기화
+
+						scope.center_categoryInput.c_parent = null; //중분류 부모 초기화
+						scope.right_categoryInput.c_parent = null; //소분류 부모 초기화					
+						scope.left_categoryInput.c_name ="";	
+					},500)
+				}
+				else
+				{
+					alert("대분류를 입력하세요.");
+				}	
+				
+			}
+
+			//중분류 추가
+			scope.center_categoryInsert = function()
+			{
+
+				if(scope.center_categoryInput.c_parent!=null)
+				{
+					if(scope.center_categoryInput.c_name!="")
+					{
+						categoryfactory.save({category:scope.center_categoryInput, category_status:"center", category_url:configService.shopPublicUrl});
+						setTimeout(function(){
+							center_getCategorys(scope.center_categoryInput.c_parent);
+							scope.right_categoryList = null; //초기화	
+							scope.center_categoryInput.c_name ="";	
+						},500)
+					}
+					else
+					{
+						alert("중분류 입력하세요.");
+					}
+				}
+				else
+				{
+					alert("대분류 클릭하세요.");
+				}
+			}
+
+			//소분류 추가
+			scope.right_categoryInsert = function() 
+			{
+				
+				if(scope.right_categoryInput.c_parent!=null)
+				{	
+					if(scope.right_categoryInput.c_name!="") //이름을 입력했을때
+					{
+						categoryfactory.save({category:scope.right_categoryInput, category_status:"right", category_url:configService.shopPublicUrl});
+						setTimeout(function(){
+							right_getCategorys(scope.right_categoryInput.c_parent);	
+							scope.right_categoryInput.c_name ="";
+						},500)
+					}
+
+					else
+					{
+						alert("소분류 입력하세요.");
+					}
+					
+				}
+				else
+				{
+					alert("중분류 클릭하세요.");
+				}	
+			}
+
+			//카테고리 삭제
+			scope.categoryDelete = function(category,type)
+			{
+				if(type=="left") //대분류 삭제
+				{
+					categoryfactory.delete({id:category.c_idx, type:type});
+					setTimeout(function(){
+						left_getCategorys(0);
+						scope.center_categoryList = null;
+						scope.right_categoryList = null;
+					},500);
+				}
+
+				else if(type=="center") //중분류 삭제
+				{
+					categoryfactory.delete({id:category.c_idx, type:type});
+					setTimeout(function(){
+						center_getCategorys(scope.center_categoryInput.c_parent);
+						scope.right_categoryList = null;
+					},500);	
+				}
+				
+				else if(type=="right") //소분류 삭제
+				{
+					categoryfactory.delete({id:category.c_idx, type:type});
+					setTimeout(function(){
+						right_getCategorys(scope.right_categoryInput.c_parent);
+					},500);	
+				}				
+				bottomCategoryInit();
+			}
+
+			//카테고리 설정
+			scope.bottomCategorySetting = function() 
+			{	
+				if(scope.bottomCategory.c_idx=="")
+				{
+					alert("분류를 클릭하세요.");
+					return false;
+				}
+				categoryfactory.update({
+		    		id:scope.bottomCategory
+		    	}).$promise.then(function(){
+		    		alert("변경 되었습니다.");
+		    		left_getCategorys(0);
+		    		scope.center_categoryList = null;
+					scope.right_categoryList = null;
+		    		bottomCategoryInit();
+		    	});
+			}
 		}
 	}
 })

@@ -14,7 +14,7 @@ class item extends Model
 		                        'p_contents',
 		                        'p_order',
 		                        'p_status',
-		                        'p_upload_idx',
+		                        'p_position',
 	);
 
 	protected $primaryKey = 'p_code';

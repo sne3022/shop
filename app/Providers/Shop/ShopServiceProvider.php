@@ -35,5 +35,10 @@ class ShopServiceProvider extends ServiceProvider
             'sneboard_shop\Contracts\Shop\IFile',
             'sneboard_shop\Services\Shop\FileUploadService'
          );
+         $this->app->bind(
+            'sneboard_shop\Contracts\Shop\ICategory',
+            'sneboard_shop\Services\Shop\CategoryService'
+         );
+
     }
 }

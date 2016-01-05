@@ -19,23 +19,52 @@
 	  </md-content>
 
      <md-content layout-padding>
-      <p>&nbsp;상품 이미지 (300 X 300)</p>
+      <label>상품 이미지 (300 X 300)</label><br>
       <img ng-src="{%DefalutImage%}" width="300" height="300">
       <fileupload></fileupload>
     </md-content>
 
     <md-content layout-padding>
-    	<p>&nbsp;상품설명</p>
+    	<label>상품 설명</label>
      <textarea id="contents" ng-model="item.p_contents"></textarea> 
-     
+    </md-content>
+
+     <md-content layout-padding>
+      <label>상품 분류</label>
+       <div class="category_wrap" >
+            <div class="col-xs-4">
+             <label>대분류</label> 
+             <md-select ng-model="leftCategory" placeholder="대분류를 클릭하세요." ng-change="leftChange()">
+                <md-option ng-repeat="category in left_categoryList" ng-value="{%category%}">{%category.c_name%}</md-option>
+              </md-select>
+            </div>
+
+            <div class="col-xs-4">
+            <label>중분류</label> 
+              <md-select ng-model="centerCategory" placeholder="중분류를 클릭하세요." ng-change="centerChange(insert.centerCategory)">
+                <md-option ng-repeat="category in center_categoryList" ng-value="{%category%}">{%category.c_name%}</md-option>
+              </md-select>
+            </div>
+
+            <div class="col-xs-4">
+            <label>소분류</label> 
+             <md-select ng-model="rightCategory" placeholder="소분류를 클릭하세요." ng-change="rightChange(insert.rightCategory)">
+                <md-option ng-repeat="category in right_categoryList" ng-value="{%category%}">{%category.c_name%}</md-option>
+              </md-select>
+            </div>
+
+            <div class="col-xs-7">
+              <label>분류 경로</label>
+              <input type="text" ng-model="totalPosition" class="form-control" readonly="true">
+            </div>
+       </div>
     </md-content>
 
     <md-content layout-padding>
-  		<p>&nbsp;상품표시상태</p>
+  		<label>상품표시상태</label>
   		<md-radio-group ng-model="p_status">
   	      <md-radio-button value="y" ng-click="dd()">진열함</md-radio-button>
   	      <md-radio-button value="n">진열안함</md-radio-button>
-
       </md-radio-group>
     </md-content>
 

@@ -17,7 +17,7 @@ angular.element(document).ready(function(){
                 controller: "ItemListController"                                
             }).when("/detail/:id", {
                 templateUrl: configData.shopPublicUrl+"template/user/detail.html", 
-                controller: "ItemDetailController"      
+                controller: "ItemDetailController",
             }).when("/cart", {
                 templateUrl: configData.shopPublicUrl+"template/user/shoppingback.html",
                 controller: "ItemShoppingbackController",
@@ -47,6 +47,7 @@ mallService.factory('mallfactory', function($resource, configService){
     );
     return resource;  //module/:id 에서 id 의 값에 따라  @id의 값이 결정된다.
 });
+
 
 /* data share (controller and controller) 상품 자세히보기 */
 mallService.factory('detailService', function(){
@@ -116,7 +117,8 @@ mallService.factory('listService', function(){
 
 mallService.factory('optionfactory', function($resource, configService){
     var resource = $resource(configService.shopBaseUrl+'option/:id', {id:'@id'}, 
-        {update : {method:'PUT'}
+        {
+            update : {method:'PUT'}
         }
     );
     return resource;  //module/:id 에서 id 의 값에 따라  @id의 값이 결정된다.
@@ -125,6 +127,16 @@ mallService.factory('optionfactory', function($resource, configService){
 
 mallService.factory('uploadfactory', function($resource, configService){
     var resource = $resource(configService.shopBaseUrl+'upload/:id', {id:'@id'},
+        {
+            update : {method:'PUT'},
+            get : {method:'GET', isArray:true}
+        }
+    );
+    return resource;  //module/:id 에서 id 의 값에 따라  @id의 값이 결정된다.
+});
+
+mallService.factory('categoryfactory', function($resource, configService){
+    var resource = $resource(configService.shopBaseUrl+'category/:id', {id:'@id'},
         {
             update : {method:'PUT'},
             get : {method:'GET', isArray:true}

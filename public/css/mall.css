@@ -410,6 +410,14 @@ md-checkbox .md-icon {
 .add_product-quantity{
 	width:150px;
 }
+.category_wrap{
+	width:800px;
+	height:210px; 
+	border-radius:10px;
+	border:1px solid #c6c6c6; 
+	background: #fff; 
+	padding:20px 0px;
+}
 /* end */
 
 
@@ -443,8 +451,8 @@ md-checkbox .md-icon {
 }
 
 .drop-dialog-content{
-	width:800px; 
-	height:470px;
+	width:600px; 
+	height:500px;
 }
 
 .drop-dialog-content-code{
@@ -452,6 +460,7 @@ md-checkbox .md-icon {
 }
 
 /* end */
+
 
 /* optionedit.html */
 .edit-dialog-first-icon{
@@ -470,7 +479,7 @@ md-checkbox .md-icon {
 }
 .order-font h4{
 	text-align: center;
-	margin-bottom:0;
+	margin-bottom:0;category_wrap
 }
 .order-font span{
 	text-align: center;
@@ -490,8 +499,8 @@ md-checkbox .md-icon {
 	font-size:50px;
 }
 .add-dialog-content{
-	width:800px; 
-	height:200px;
+	width:320px; 
+	height:320px;
 }
 .add-dialog-content-code{
 	color:rgb(63,81,181); 
@@ -553,4 +562,16 @@ md-checkbox .md-icon {
 
 .right-content-txt{
 	margin-left:24px;width:324px; height:440px; background: green; float:left;
+}
+
+/* pagecategory.html */
+
+.category-hover{
+	background: #eee;
+	color:#428bca;
+}
+.category-click{
+	outline: none;
+	background: rgb(63,81,181);;
+	color:#ffffff;
 }
