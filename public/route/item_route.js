@@ -12,8 +12,8 @@ angular.element(document).ready(function(){
         });
         
         mallApp.config(function($routeProvider){
-             $routeProvider.when("/list", {
-                templateUrl: configData.shopPublicUrl+"template/user/list.html",
+             $routeProvider.when("/", {
+                templateUrl: configData.shopPublicUrl+"template/user/main.html",
                 controller: "ItemListController"                                
             }).when("/detail/:id", {
                 templateUrl: configData.shopPublicUrl+"template/user/detail.html", 
@@ -24,9 +24,8 @@ angular.element(document).ready(function(){
             }).when("/admin", {
                 templateUrl: configData.shopPublicUrl+"template/admin/left_manage.html",
                 controller: "AdminCtrl"
-            }).
-            otherwise({
-                redirectTo:'/list'
+            }).when("/list/:id", {
+                templateUrl: configData.shopPublicUrl+"template/user/list.html",
             });
         });
         angular.bootstrap(document, ['sneboard']);

@@ -33,12 +33,12 @@
       <div flex="15" layout-align="center center" layout="row">
         <h4>{%item.p_code%}</h4>
       </div>
-      <div flex="40" layout-align="center center" layout="row">
-        <md-list-item class="md-4-line" >
+      <div flex="40" layout="row" class="manage-list-name" layout-align="center center">
+        <md-list-item class="md-4-line">
 
             <img ng-src="{%item.p_big_img%}" class="md-avatar manage-avatar-img"/>
 
-            <div class="md-list-item-text manage-avatar-txt" layout="column">
+            <div class="md-list-item-text manage-avatar-txt">
               <p>{%item.p_title%}
                 <md-menu>
                 <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)"> 
@@ -48,10 +48,15 @@
                   <md-menu-item>
                     <md-button ng-click="itemEdit(item)">
                      <i class="material-icons manage-icons">gavel</i>
-                      상품 기본편집
+                      상품 편집
                     </md-button>
                   </md-menu-item>
-
+                  <md-menu-item>
+                    <md-button ng-click="optionDropEdit($event,item)">
+                      <i class="material-icons manage-icons">build</i>
+                      옵션 편집
+                    </md-button>
+                  </md-menu-item>  
                   <md-menu-item>
                     <md-button ng-click="optionInsert($event,item)">
                       <i class="material-icons manage-icons">add</i>
@@ -66,19 +71,8 @@
                     </md-button>
                   </md-menu-item>
 
-                  <md-menu-item>
-                    <md-button ng-click="optionDrop($event,item)">
-                      <i class="material-icons manage-icons">archive</i>
-                      옵션 추가
-                    </md-button>
-                  </md-menu-item>
 
-                  <md-menu-item>
-                    <md-button ng-click="optionDropEdit($event,item)">
-                      <i class="material-icons manage-icons">build</i>
-                      옵션 편집
-                    </md-button>
-                  </md-menu-item>
+                  
               
                 </md-menu-content>
               </md-menu>            

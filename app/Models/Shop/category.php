@@ -11,7 +11,8 @@ class category extends Model
 								'c_name',
 								'c_url',
 								'c_description',
-								'c_status'
+								'c_status',
+								'c_position'
 								);
 	protected $primaryKey = "c_idx";
 	protected $table="sb_mall_category";

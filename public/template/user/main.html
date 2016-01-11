@@ -1,0 +1,32 @@
+<div class="menulist" >
+	<ul ng-repeat="menu in menuList">
+		<a href="#/list/{%menu.c_name%}"><li>{%menu.c_name%}</li></a>
+	</ul>
+</div>
+
+<div class="mall_list">
+	<ul class="mall_list_contents">
+		<li ng-repeat="item in totalItems track by $index">
+		    <a href="#/detail/{%item.p_code%}" ng-click="detail(item.p_big_img, item.p_code)" 
+		    ng-mouseenter="mouseenter($event)" ng-mouseleave="mouseleave($event)" id="{%item.p_code%}"> 
+		     <img ng-src="{%item.p_big_img%}" ><br>
+		     <div class="list-title {%item.p_code%}">
+		     	<div class="list-title-txt">
+					<span>{%item.p_title%}<br></span>
+					<span class="price">{%item.p_price%}</span>원
+				</div>
+			</div>
+			</a>
+		</li>	
+	</ul>
+</div>
+<div class="pagin">
+	<pagination total-items="totalItemNumber" ng-model="currentPage"
+			items-per-page="itemperpage" ng-change="pageChanged()">
+	</pagination>
+</div>
+
+
+
+
+

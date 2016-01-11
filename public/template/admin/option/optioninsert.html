@@ -1,44 +1,57 @@
-<md-dialog aria-label=" ">
-    <md-toolbar>
-      <div class="md-toolbar-tools">
-        <span flex></span>
-        <md-button class="md-icon-button" ng-click="cancel()" >
-          <i class="material-icons add-dialog-second-icon">clear</i>
-        </md-button>
+
+<div flex layout="row" layout-align="center center" style="background: #eee; min-height:600px;">
+	<ul>
+	<li>
+      <div class="form-group">
+        <label>상품코드</label>
+        <pre><span class="option-add-code">{%option.o_code%}</span></pre>
       </div>
-    </md-toolbar>
 
-    <md-dialog-content>
-    	<div class="md-dialog-content add-dialog-content">
-    		<ul>
-    		<li>
-    			<md-content layout layout-sm="column">
-            <md-input-container>
-               <h4>상품 코드</h4> 
-               <span class="add-dialog-content-code">{%option.o_code%}</span>
-            </md-input-container> 
-          </md-content>
-          <md-content layout layout-sm="column">  
-	    			<md-input-container flex>
-	    				<h4>상품 구분</h4>
-	    				<input ng-model="option.o_field_name_txt" aria-label=" ">
-	    			</md-input-container>
-          </md-content>
-          <md-content layout layout-sm="column">  
-	    			<md-input-container flex>
-	    				<h4>값</h4>
-	    				<input ng-model="option.o_value" aria-label=" ">
-	    			</md-input-container>
-          </md-content>  
-    		</li>
-    		</ul>	
-    	</div>
-    </md-dialog-contents>
+      <div class="form-group">
+				<label>상품 구분</label>
+				<input class="form-control" ng-model="option.o_field_name_txt" aria-label=" ">
+			</div>
 
-   	<md-dialog-actions layout="row" layout-align="center center" style="padding-bottom:30px;">
-   		<md-button class="md-raised" ng-click="cancel()">취소
-   		</md-button>
-   		<md-button class="md-raised" ng-click="add()">추가
-   		</md-button>
-   	</md-dialog-actions>
-</md-dialog>
+      <div class="form-group">
+        <label>상품 값</label>
+        <input class="form-control" ng-model="option.o_value" aria-label=" ">
+      </div>
+
+      <div class="form-group">
+        <label>옵션 사용</label>
+        <md-radio-group ng-model="optionUse" ng-change="optionState()">
+          <md-radio-button value="y" class="md-primary">사용</md-radio-button>
+          <md-radio-button value="n">사용안함</md-radio-button>
+        </md-radio-group>
+      </div>
+      
+      <div id="optionDrop" style="display: none;">
+        <div class="form-group">
+          <label>옵션 구분</label>
+          <input type="text" class="form-control" ng-model="optionDrop.o_field_name_txt">
+        </div>
+        <div class="form-group">
+          <label>옵션 가격</label>
+          <input type="number" class="form-control" ng-model="optionDrop.o_value">
+        </div>
+        <div class="form-group" style="position:relative;">
+          <label>옵션 값</label>
+          <input type="text" class="form-control" ng-model="optionDrop.o_select_box">
+          <i class="material-icons" ng-click="optionDropAdd()" 
+          style="position:absolute; top:25px; right:-32px; cursor:pointer; background: rgb(63,81,181); color:#fff; font-size:34px;">add
+          </i>
+
+          <md-select ng-model="DropSelect" aria-label=" " placeholder="옵션 확인">                   
+                <md-option ng-repeat="optionList in optionDropSelect track by $index">{%optionList%}</md-option>
+          </md-select>      
+        </div>
+      </div>
+      <div class="form-group">
+          <md-button class="md-raised" ng-click="cancel()">취소</md-button>
+          <md-button class="md-raised" ng-click="add()">등록</md-button>
+      </div>  
+      
+	</li>
+	</ul>            
+</div>
+

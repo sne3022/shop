@@ -1,143 +1,169 @@
+        <div layout="row" flex="100" layout-wrap class="manage-title-top">
 
+          <div flex="10" layout-align="center center" layout="row" class="manage-title">
+            <md-checkbox ng-model="selectedAll" ng-change="allCheck()" aria-label=" " style="padding:0px;">
+            </md-checkbox>
+          </div>
+          <div flex="10" layout-align="center center" layout="row" class="manage-title">진열순서</div>
+          <div flex="35" layout-align="center center" layout="row" class="manage-title">상품명</div>
+          <div flex="35" layout-align="center center" layout="row" class="manage-title">상품값</div>
+          <div flex="10" layout-align="center center" layout="row" class="manage-title">표시상태</div>          
+        </div>
 
-<md-dialog>
-    <md-toolbar>
-      <div class="md-toolbar-tools">
-        <h2><i class="material-icons edit-dialog-first-icon">create</i></h2>
-        <span flex></span>
-        <md-button class="md-icon-button" ng-click="cancel()">
-          <i class="material-icons edit-dialog-second-icon">clear</i>
-        </md-button>
-      </div>
-    </md-toolbar>
+    		<ul ng-repeat="option in optionList track by $index | orderBy:orderProperty" style="margin:0;">
 
-    <!-- optontion modify --> 
-    <md-dialog-content>
-
-    	<div class="md-dialog-content edit-dialog-content">
-    		<ul ng-repeat="option in optionList track by $index | orderBy:orderProperty">
-
-    		<li id="{%option.o_idx%}">
-    			<md-content layout layout-sm="column">
-    				<md-input-container>
-    					<h4>선택</h4>
-	    				<md-checkbox ng-model="option.selected" ng-change="checkModule(option)" aria-label=" ">
-	        		    </md-checkbox>
-        		</md-input-container>
+    		<li id="{%option.o_idx%}" layout="row" style="height:90px; border-bottom: 1px solid #eee;">
+    			  <div flex="10" layout-align="center center" layout="row">
+	    				<md-checkbox ng-model="option.selected" ng-change="checkModule(option)" aria-label=" " style="padding:0px;">
+	        		</md-checkbox>
+        		</div>
 	    			
-            <md-input-container class="order-font">
-              <h4>순서</h4>
-              <span>
-              <p ng-click="orderChange($index,'up')"><img ng-src="image/btn_up.png"></p>
-              <p>{%$index+1%}</p>
+            <div flex="10" layout-align="center center" layout="row">
+              <span class="option-order-btn">
+              <p ng-click="orderChange($index,'up')"><img ng-src="image/btn_up.png" ></p>
+              <div>{%$index+1%}</div>
               <p ng-click="orderChange($index,'down', $event)" ng-class="{'last':$last}"><img ng-src="image/btn_down.png"></p>
               </span>
-            </md-input-container>
-
-            <md-input-container flex ng-if="option.o_field_name!='옵션'" style="padding-right:10px">
-              <h4 class='option-other-font'>상품 구분</h4>
-              <input ng-model="option.o_field_name_txt" aria-label=" ">  
-            </md-input-container>
-
-
-            <md-input-container style="padding-right:10px; padding-top:45px">
-              <md-select ng-model="option.o_field_name_fontfamily" aria-label=" ">                   
-                <md-option value="굴림">굴림</md-option>
-                <md-option value="굴림체">굴림체</md-option>
-                <md-option value="돋움">돋움</md-option>
-                <md-option value="돋움체">돋움체</md-option>
-                <md-option value="바탕">바탕</md-option>
-                <md-option value="바탕체">바탕체</md-option>
-                <md-option value="궁서">궁서</md-option>
-                <md-option value="궁서체">궁서체</md-option>
-                <md-option value="나눔고딕">나눔고딕</md-option>
-              </md-select>
-            </md-input-container>
-
-            <md-input-container style="padding-right:10px; padding-top:45px;">
-              <md-select ng-model="option.o_field_name_fontsize"  aria-label=" ">                   
-                <md-option value="6pt">6pt</md-option>
-                <md-option value="8pt">8pt</md-option>
-                <md-option value="9pt">9pt</md-option>
-                <md-option value="10pt">10pt</md-option>
-                <md-option value="11pt">11pt</md-option>
-                <md-option value="14pt">14pt</md-option>
-                <md-option value="18pt">18pt</md-option>
-                <md-option value="24pt">24pt</md-option>
-                <md-option value="35pt">36pt</md-option>
-              </md-select>
-            </md-input-container>
+            </div>
 
 
 
-            <md-input-container style="padding-right:10px; padding-top:45px">
-               <div style=' width:110px; float:left;'>
-                <div class="input-group field_colorpicker" id="{%$index%}">
-                    <input style="width:69px; height:30px; border:1px solid #ccc; border-top-left-radius: 4px; border-bottom-left-radius: 4px" ng-model="option.o_field_name_color" type="text"  class="form-control colorfont" aria-label=" "/>
-                    <span class="input-group-addon"><i></i></span>
+            <!-- 현재 작업중 -->
+            <div flex="35" layout="column" style="padding:0px 50px; height:130px;" layout-align="center start">
+              
+                <div flex>
+                  <div ng-if="option.o_field_name!='옵션'" style="padding: 12px 0px 0px 2px;">
+                    <input type="text" class="form-control" ng-model="option.o_field_name_txt" aria-label=" " style="width:295px; height:30px;">  
+                  </div>
                 </div>
-               </div>
-            </md-input-container>
 
-	    			<md-input-container flex ng-if="option.o_field_name!='옵션'" style="padding-right:10px">
-	    				<h4 class='option-other-font'>값</h4>
-	    				<input ng-model="option.o_value" aria-label=" ">
-	    			</md-input-container>
+                <div flex layout="row">
+                  <div flex="35">
+                    <md-input-container style="width:99px;">
+                     <md-select ng-model="option.o_field_name_fontfamily" aria-label=" ">                   
+                      <md-option value="굴림">굴림</md-option>
+                      <md-option value="굴림체">굴림체</md-option>
+                      <md-option value="돋움">돋움</md-option>
+                      <md-option value="돋움체">돋움체</md-option>
+                      <md-option value="바탕">바탕</md-option>
+                      <md-option value="바탕체">바탕체</md-option>
+                      <md-option value="궁서">궁서</md-option>
+                      <md-option value="궁서체">궁서체</md-option>
+                      <md-option value="나눔고딕">나눔고딕</md-option>
+                    </md-select>
+                   </md-input-container>
+                 </div>
+                 <div flex="30">
+                   <md-input-container>
+                    <md-select ng-model="option.o_field_name_fontsize"  aria-label=" ">                   
+                      <md-option value="6pt">6pt</md-option>
+                      <md-option value="8pt">8pt</md-option>
+                      <md-option value="9pt">9pt</md-option>
+                      <md-option value="10pt">10pt</md-option>
+                      <md-option value="11pt">11pt</md-option>
+                      <md-option value="14pt">14pt</md-option>
+                      <md-option value="18pt">18pt</md-option>
+                      <md-option value="24pt">24pt</md-option>
+                      <md-option value="35pt">36pt</md-option>
+                    </md-select>
+                  </md-input-container>
+                 </div>
 
-             <md-input-container style="padding-right:10px; padding-top:45px ">
-              <md-select ng-model="option.o_value_fontfamily" aria-label=" ">                   
-                <md-option value="굴림">굴림</md-option>
-                <md-option value="굴림체">굴림체</md-option>
-                <md-option value="돋움">돋움</md-option>
-                <md-option value="돋움체">돋움체</md-option>
-                <md-option value="바탕">바탕</md-option>
-                <md-option value="바탕체">바탕체</md-option>
-                <md-option value="궁서">궁서</md-option>
-                <md-option value="궁서체">궁서체</md-option>
-                <md-option value="나눔고딕">나눔고딕</md-option>
-              </md-select>
-            </md-input-container>
-
-            <md-input-container style="padding-right:10px; padding-top:45px" >
-              <md-select ng-model="option.o_value_fontsize" aria-label=" ">
-                <md-option value="6pt">6pt</md-option>
-                <md-option value="8pt">8pt</md-option>
-                <md-option value="9pt">9pt</md-option>
-                <md-option value="10pt">10pt</md-option>
-                <md-option value="11pt">11pt</md-option>
-                <md-option value="14pt">14pt</md-option>
-                <md-option value="18pt">18pt</md-option>
-                <md-option value="24pt">24pt</md-option>
-                <md-option value="35pt">36pt</md-option>
-              </md-select>
-            </md-input-container>
-
-            <md-input-container style="padding-right:10px; padding-top:45px">
-               <div style='width:110px; float:left;'>
-                <div class="input-group val_colorpicker" id="{%$index%}">
-                    <input style="width:69px; height:30px; border:1px solid #ccc; border-top-left-radius: 4px; border-bottom-left-radius: 4px" ng-model="option.o_value_color" type="text"  class="form-control colorfont" aria-label=" "/>
-                    <span class="input-group-addon"><i></i></span>
+                 <div flex="35">
+                  <md-input-container>
+                     <div style=' width:110px; float:left;'>
+                      <div class="input-group field_colorpicker" id="{%$index%}">
+                          <input style="width:69px; height:30px; border:1px solid #ccc; border-top-left-radius: 4px; border-bottom-left-radius: 4px" ng-model="option.o_field_name_color" type="text"  class="form-control colorfont" aria-label=" "/>
+                          <span class="input-group-addon"><i></i></span>
+                      </div>
+                     </div>
+                  </md-input-container>
+                 </div>
                 </div>
-               </div>
-            </md-input-container>
+            </div> <!-- 끝 -->
+            
+             <div flex="35" layout="column" style="padding:0px 50px; height:130px;" layout-align="center start">
+              
+                <div flex>
+                  <div ng-if="option.o_field_name!='옵션'" style="padding: 12px 0px 0px 2px;">
+                    <input type="text" class="form-control" ng-model="option.o_value" aria-label=" " style="width:295px; height:30px;">  
+                  </div>
+                </div>
 
-	    			<md-input-container>
-	    				<h4 class='option-other-font'>표시상태</h4>
-	    				<md-select ng-model="option.o_all_status" aria-label=" ">
-	    					<md-option value="y">Y
-	    					</md-option>
-	    					<md-option value="n">N
-	    					</md-option>
-	    				</md-select>
-	    			</md-input-container>
-    			</md-content>
+                <div flex layout="row">
+                  <div flex="35">
+                    <md-input-container style="width:99px;">
+                     <md-select ng-model="option.o_value_fontfamily" aria-label=" ">                   
+                      <md-option value="굴림">굴림</md-option>
+                      <md-option value="굴림체">굴림체</md-option>
+                      <md-option value="돋움">돋움</md-option>
+                      <md-option value="돋움체">돋움체</md-option>
+                      <md-option value="바탕">바탕</md-option>
+                      <md-option value="바탕체">바탕체</md-option>
+                      <md-option value="궁서">궁서</md-option>
+                      <md-option value="궁서체">궁서체</md-option>
+                      <md-option value="나눔고딕">나눔고딕</md-option>
+                    </md-select>
+                   </md-input-container>
+                 </div>
+                 <div flex="30">
+                   <md-input-container>
+                    <md-select ng-model="option.o_value_fontsize"  aria-label=" ">                   
+                      <md-option value="6pt">6pt</md-option>
+                      <md-option value="8pt">8pt</md-option>
+                      <md-option value="9pt">9pt</md-option>
+                      <md-option value="10pt">10pt</md-option>
+                      <md-option value="11pt">11pt</md-option>
+                      <md-option value="14pt">14pt</md-option>
+                      <md-option value="18pt">18pt</md-option>
+                      <md-option value="24pt">24pt</md-option>
+                      <md-option value="35pt">36pt</md-option>
+                    </md-select>
+                  </md-input-container>
+                 </div>
+
+                 <div flex="35">
+                  <md-input-container>
+                     <div style=' width:110px; float:left;'>
+                      <div class="input-group val_colorpicker" id="{%$index%}">
+                          <input style="width:69px; height:30px; border:1px solid #ccc; border-top-left-radius: 4px; border-bottom-left-radius: 4px" ng-model="option.o_value_color" type="text"  class="form-control colorfont" aria-label=" "/>
+                          <span class="input-group-addon"><i></i></span>
+                      </div>
+                     </div>
+                  </md-input-container>
+                 </div>
+                </div>
+            </div> <!-- 끝 -->
+            <div flex="10" layout="row" layout-align="center center">
+  	    			<md-input-container style="padding-top:20px;">
+  	    				<md-select ng-model="option.o_all_status" aria-label=" ">
+  	    					<md-option value="y">Y
+  	    					</md-option>
+  	    					<md-option value="n">N
+  	    					</md-option>
+  	    				</md-select>
+  	    			</md-input-container>
+            </div>
+            <div flex="15" layout="row" layout-align="center center">
+              
+            </div>  
     		</li>
-    		</ul>	
-    	</div>
-    </md-dialog-contents>
-    <!-- end --> 
+    		</ul>
+        <div flex layout="row" layout="start center">
 
-    <!-- button -->
+          <md-button class="md-raised" ng-click="cancel()">돌아가기
+          </md-button>
+           <md-button class="md-raised md-primary" ng-click="selectedDelete()">삭제</md-button>
+          <md-button class="md-raised md-warn" ng-click="update()">변경
+          </md-button>
+        </div>
+
+      
+<!--
+    </md-dialog-contents>
+    
+
+
    	<md-dialog-actions layout="row">
    		<md-button class="md-raised" ng-click="selectedDelete()">삭제
    		</md-button>
@@ -147,6 +173,6 @@
    		<md-button class="md-raised" ng-click="update()">수정
    		</md-button>
    	</md-dialog-actions>
-    <!-- end -->
-</md-dialog>
 
+</md-dialog>
+-->

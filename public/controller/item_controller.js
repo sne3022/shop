@@ -6,33 +6,48 @@ mall.$inject = ["$scope","$routeParams","configService","mallfactory",
 mall.controller("AdminCtrl", function($scope){
 	
 	$scope.itemEditList = null;
+	$scope.optionEditList = null;
+	$scope.optionInsertList = null;
 	$scope.fileName = null;
 	$scope.normal = 'manage';
 	$scope.control = function(number){
 
 		if(number==0)
 		{
+			CKEDITOR.remove('contents');
 			$scope.normal = 'category';
 		}
 		else if(number==1)
 		{
+			CKEDITOR.remove('contents');
 			$scope.normal = 'insert';  
 		}
 		else if(number==2)
 		{
+			CKEDITOR.remove('contents');
 			$scope.normal = 'manage';
-			CKEDITOR.remove('contents');	
 		}
 		else if(number==3)
 		{
 			$scope.normal = "setting";
+		}
+		else if(number==4)
+		{
+			CKEDITOR.remove('contents');
+			$scope.normal = "optionedit";
+		}
+
+		else if(number==5)
+		{
+			CKEDITOR.remove('contents');
+			$scope.normal = "optioninsert";
 		}
 	}
 
 })
 
 /******************************************* 상품 리스트 ***************************************/
-mall.controller("ItemListController", function($scope, mallfactory, listService)
+mall.controller("ItemListController", function($scope, mallfactory, listService, categoryfactory)
 {
 	$scope.totalItemNumber = 0; //상품 총개수 초기화
     $scope.itemperpage = 9; //페이지당 상품 표시 개수
@@ -40,8 +55,17 @@ mall.controller("ItemListController", function($scope, mallfactory, listService)
     $scope.items =[]; //상품을 담는 공간
 
     getItems(); //상품 가져오기 
-    /* 상품 가져오기 Pagination */
+    getMenu();
 
+    function getMenu()
+    {
+    	categoryfactory.query().$promise.then(function(result){
+    		$scope.menuList = result;
+    	})
+    	/*$scope.menuList = ['ABOUT', 'COMPANY', 'CONTACT', 'NOTICE'];*/
+    }
+
+    /* 상품 가져오기 Pagination */
 	function getItems()
     {   
 
@@ -702,29 +726,16 @@ mall.directive('itemManage', function(mallfactory, optionfactory, $timeout, $mdD
 			/* 옵션 수정 */
 			scope.optionModify = function(ev,item)
 			{
-				$mdDialog.data = item;
-				$mdDialog.show({
-					controller:"OptionEditController",
-					templateUrl:configService.shopPublicUrl+'template/admin/option/optionedit.html',
-					parent:angular.element(document.body),
-					targetEvent:ev,
-					clickOutsideToclose:true
-				}).finally(function(){
-					getItems();
-				});
+				scope.$parent.normal = 'optionedit';
+				scope.$parent.optionEditList = item;
 			}
 
 			/* 옵션 추가 */
 			scope.optionInsert = function(ev,item)
 			{
-				$mdDialog.add = item;
-				$mdDialog.show({
-					controller:"OptionInsertController",
-					templateUrl:configService.shopPublicUrl+'template/admin/option/optioninsert.html',
-					parent:angular.element(document.body),
-					targetEvent:ev,
-					clickOutsideToclose:true
-				});
+				scope.$parent.normal = 'optioninsert';
+				scope.$parent.optionInsertList = item;
+
 			}
 
 			/* 옵션 드롭 */
@@ -996,289 +1007,294 @@ mall.directive('itemEdit', function(mallfactory, $timeout, configService, $compi
 
 
 /******************************************* 타이틀 수정 ****************************************/
-mall.controller("OptionEditController", function($scope ,$mdDialog, optionfactory, mallfactory)
-{	
-    
-	setTimeout(function(){
-    	$('.field_colorpicker').colorpicker().on('hidePicker', function(event)
-	    {               
-	        	var index = $(this).attr('id');
-	        	$scope.optionList[index].o_field_name_color = event.color.toHex();
 
-	    });	
-    },500)
+mall.directive('optionEdit', function(configService, optionfactory, mallfactory){
+	return {
+		restrict: 'E',
+		templateUrl: configService.shopPublicUrl+'template/admin/option/optionedit.html',
+		controllerAS:"AdminCtrl",
+		link: function($scope, element, attr){
 
-    setTimeout(function(){
-    	$('.val_colorpicker').colorpicker().on('hidePicker', function(event)
-	    {               
-	        	var index = $(this).attr('id');
-	        	$scope.optionList[index].o_value_color = event.color.toHex();
-	    });	
-    },500)	
-    
-    
-	var str = null;
-	$scope.option ={
-		o_field_name_fontsize:'10pt',
-		o_field_name_fontfamily:'나눔고딕',
-		o_value_fontsize:'10pt',
-		o_value_fontfamily:'나눔고딕'
-	};
+			setTimeout(function(){
+		    	$('.field_colorpicker').colorpicker().on('hidePicker', function(event)
+			    {               
+			        	var index = $(this).attr('id');
+			        	$scope.optionList[index].o_field_name_color = event.color.toHex();
 
-	$scope.orderProperty = 'o_order';
-	$scope.item = {};
-	getItems();
+			    });	
+		    },500)
 
-	
-	function getItems() //옵션 수정 데이터 불러오기
-	{
-		
-		optionfactory.query({id:$mdDialog.data.p_code}).$promise.then(function(result,$index)
-		{	
+		    setTimeout(function(){
+		    	$('.val_colorpicker').colorpicker().on('hidePicker', function(event)
+			    {               
+			        	var index = $(this).attr('id');
+			        	$scope.optionList[index].o_value_color = event.color.toHex();
+			    });	
+		    },500)	
+		    
+		    
+			var str = null;
+			$scope.option ={
+				o_field_name_fontsize:'10pt',
+				o_field_name_fontfamily:'나눔고딕',
+				o_value_fontsize:'10pt',
+				o_value_fontfamily:'나눔고딕'
+			};
 
-			$scope.optionList = $.grep(result, function(value, index){
-				if(value.o_type=="multiple")
+			$scope.orderProperty = 'o_order';
+			$scope.item = {};
+			getItems();
+
+			
+			function getItems() //옵션 수정 데이터 불러오기
+			{
+				
+				optionfactory.query({id:$scope.optionEditList.p_code}).$promise.then(function(result,$index)
+				{	
+
+					$scope.optionList = $.grep(result, function(value, index){
+						if(value.o_type=="multiple")
+						{
+							value.o_value = Number(result[index].o_value);
+							str = result[index].o_select_box;
+							if(str!=null)
+							value.o_select_box = str.split(',');
+						}
+						else
+						{	
+							return true;
+						}
+					})
+				});
+			}
+
+
+
+			$scope.cancel = function() 
+			{
+		    	$scope.$parent.normal = 'manage';
+		    }
+
+		    $scope.update = function()
+		    {	
+		    	/*option에 기본값 변동 + product 기본값 변동 (동시) */
+				angular.forEach($scope.optionList, function(option)
 				{
-					value.o_value = Number(result[index].o_value);
-					str = result[index].o_select_box;
-					if(str!=null)
-					value.o_select_box = str.split(',');
+					$scope.item.p_code = option.o_code;
+					if(option.o_field_name_txt=='상품명')	
+					$scope.item.p_title = option.o_value; 
+					else if(option.o_field_name_txt=='가격')
+					$scope.item.p_price = option.o_value;
+					else if(option.o_field_name_txt=='수량')
+					$scope.item.p_quantity = option.o_value;
+				}); 
+
+		    	if($scope.item.p_title!=null || $scope.item.p_price!=null || $scope.item.p_quantity)
+		    	{
+		    		mallfactory.update({
+				    		id:$scope.item, type:'default'
+				    });
+		    	}//end 
+
+		    	optionfactory.update({
+		    		id:$scope.optionList
+		    	}).$promise.then(function(){
+		            alert("변경 되었습니다");
+		    		
+		        });
+
+		    }
+
+		    /* 체크 박스 */
+			$scope.checkModule = function(option)
+			{
+				
+				if(option.selected == true)
+				{	
+					option.delete = true;
 				}
 				else
-				{	
-					return true;
+				{
+					option.delete = true;
 				}
-			})
-		});
-	}
-
-
-
-	$scope.cancel = function() 
-	{
-    	$mdDialog.cancel();
-    }
-
-    $scope.update = function()
-    {	
-    	/*option에 기본값 변동 + product 기본값 변동 (동시) */
-		angular.forEach($scope.optionList, function(option)
-		{
-			$scope.item.p_code = option.o_code;
-			if(option.o_field_name_txt=='상품명')	
-			$scope.item.p_title = option.o_value; 
-			else if(option.o_field_name_txt=='가격')
-			$scope.item.p_price = option.o_value;
-			else if(option.o_field_name_txt=='수량')
-			$scope.item.p_quantity = option.o_value;
-		}); 
-
-    	if($scope.item.p_title!=null || $scope.item.p_price!=null || $scope.item.p_quantity)
-    	{
-    		mallfactory.update({
-		    		id:$scope.item, type:'default'
-		    });
-    	}//end 
-
-    	optionfactory.update({
-    		id:$scope.optionList
-    	}).$promise.then(function(){
-            alert("변경 되었습니다");
-    		$mdDialog.hide();
-        });
-
-    }
-    $scope.cancel = function() 
-	{
-    	$mdDialog.cancel();
-    }
-
-    /* 체크 박스 */
-	$scope.checkModule = function(option)
-	{
-		
-		if(option.selected == true)
-		{	
-			option.delete = true;
-		}
-		else
-		{
-			option.delete = true;
-		}
-	}
-
-	/*선택된 옵션 삭제 */
-    $scope.selectedDelete = function()
-    {
-    	angular.forEach($scope.optionList, function(option)
-    	{
-    		if(option.delete==true)
-			{	
-				optionfactory.delete({id:option.o_idx, type:1});
 			}
-			else
-			{
-				return true;
-			}
-			getItems();	
-    	});
-    }
 
-    $scope.orderChange = function(order,type, event)
-    {
-		if(type=="up")
-    	{
-    		if(order==0)
-    		{
-    			return false;
-    		}
-    		else
-    		{
-    			var temp = null; //임시저장 공간
-	    		temp = $scope.optionList[order].o_order;
-	    		$scope.optionList[order].o_order = $scope.optionList[order-1].o_order;
-	    		$scope.optionList[order-1].o_order = temp;
-	    		changeposition(order);
-    		}
-    	}
-    	else if(type=="down")
-    	{
-    		
-    		if($(event)[0].currentTarget.className=='last')
-    		{
-    			return false;
-	    	}
-	    	else
-	    	{
-	    		var temp = null;
-	    		temp = $scope.optionList[order].o_order;
-	    		$scope.optionList[order].o_order = $scope.optionList[order+1].o_order;
-	    		$scope.optionList[order+1].o_order = temp;
-	    		changeposition(order+1);
-	    	}
-    	}
-    	
-    }
+			/*선택된 옵션 삭제 */
+		    $scope.selectedDelete = function()
+		    {
+		    	angular.forEach($scope.optionList, function(option)
+		    	{
+		    		if(option.delete==true)
+					{	
+						optionfactory.delete({id:option.o_idx, type:1});
+					}
+					else
+					{
+						return true;
+					}
+		    	});
+		    	getItems();
+		    }
 
-     function changeposition(val){ 
-       var temp;   
-       temp = $scope.optionList[val];
-       $scope.optionList[val] = $scope.optionList[val-1];
-       $scope.optionList[val-1] = temp;   
-    }
+		    $scope.orderChange = function(order,type, event)
+		    {
+				if(type=="up")
+		    	{
+		    		if(order==0)
+		    		{
+		    			return false;
+		    		}
+		    		else
+		    		{
+		    			var temp = null; //임시저장 공간
+			    		temp = $scope.optionList[order].o_order;
+			    		$scope.optionList[order].o_order = $scope.optionList[order-1].o_order;
+			    		$scope.optionList[order-1].o_order = temp;
+			    		changeposition(order);
+		    		}
+		    	}
+		    	else if(type=="down")
+		    	{
+		    		
+		    		if($(event)[0].currentTarget.className=='last')
+		    		{
+		    			return false;
+			    	}
+			    	else
+			    	{
+			    		var temp = null;
+			    		temp = $scope.optionList[order].o_order;
+			    		$scope.optionList[order].o_order = $scope.optionList[order+1].o_order;
+			    		$scope.optionList[order+1].o_order = temp;
+			    		changeposition(order+1);
+			    	}
+		    	}
+		    	
+		    }
+
+		     function changeposition(val){ 
+		       var temp;   
+		       temp = $scope.optionList[val];
+		       $scope.optionList[val] = $scope.optionList[val-1];
+		       $scope.optionList[val-1] = temp;   
+		    }
+		}
+	}
 })
+
 
 
 /******************************************* 옵션 등록 ****************************************/
-mall.controller("OptionInsertController", function($scope, $mdDialog, optionfactory)
-{
-	$scope.option = {};
-	$scope.option.o_code = $mdDialog.add.p_code;
-	$scope.option.o_all_status = 'y';
-	$scope.option.o_type="only";
-	//$scope.option.oorder = $mdDialog  
-	optionNumber($mdDialog.add.p_code);
-	function optionNumber(p_code) //현재 옵션 개수 가져오기
-	{
-		optionfactory.query({id:p_code}).$promise.then(function(result)
-		{
-			result = $.grep(result, function(val){
-				if(val.o_type=="only")
-				{
-					return true;	
-				}
-			})
-			$scope.option.o_order = result.length+1;
-		})
-	}
-	$scope.add = function()
-	{	
-		
-		if($scope.option.o_field_name_txt!=null && $scope.option.o_value!=null) //제목과 값이 모두 적혀있을경우
-		{
-			optionfactory.save({option:$scope.option, type:'insert'});	
-		}
-		alert("추가 되었습니다");
-		$mdDialog.hide();
-	}
-	$scope.cancel = function() 
-	{
-    	$mdDialog.cancel();
-    }
-})
 
-
-/* 옵셥 드롭 */
-mall.controller("OptionDropController", function($scope, $mdDialog, optionfactory, $compile)
-{
-	$scope.option = {};
-	$scope.option.o_code = $mdDialog.drop.p_code;
-	$scope.option.o_field_name="옵션";
-	$scope.option.o_all_status = 'n';
-	$scope.option.o_type="multiple"; 
-	
-	optionNumber($mdDialog.drop.p_code);
-	function optionNumber(p_code) //현재 옵션 개수 가져오기
-	{
-		optionfactory.query({id:p_code}).$promise.then(function(result)
+mall.directive('optionInsert', function(configService, optionfactory, mallfactory, $compile){
+	return {
+		restrict: 'E',
+		templateUrl: configService.shopPublicUrl+'template/admin/option/optioninsert.html',
+		controllerAS:"AdminCtrl",
+		link: function($scope, element, attr)
 		{
-			result = $.grep(result, function(val)
+			$scope.optionDropSelect =[];
+			$scope.optionUse = 'n';
+			$scope.option = {
+				o_code:$scope.optionInsertList.p_code,
+				o_all_status:"y",
+				o_type:"only",
+				o_field_name_color:"#000",
+				o_field_name_fontsize:"10pt",
+				o_field_name_fontfamily:"나눔고딕",
+				o_value_color:"#000",
+				o_value_fontsize:"10pt",
+				o_value_fontfamily:"나눔고딕",
+			}
+
+			$scope.optionDrop = {
+				o_code:$scope.optionInsertList.p_code,
+				o_field_name:"옵션",
+				o_all_status: 'n',
+				o_type:"multiple",
+				o_select_box:null,
+				o_value:null,
+				o_order:0, 
+			};
+
+			$scope.DropSelect = null;
+			
+
+			$scope.optionDropAdd = function()
 			{
-				if(val.o_type=='multiple')
+				$scope.optionDropSelect.push($scope.optionDrop.o_select_box); 
+				alert("추가 되었습니다");
+			}
+
+			$scope.add = function()
+			{	
+				
+				/*옵션 드롭 가져오기*/
+				var optiondrop_select_values = '';
+
+		    	angular.forEach($scope.optionDropSelect, function(value)
+		    	{
+		    		 if(optiondrop_select_values == '')
+				     {
+				        optiondrop_select_values = optiondrop_select_values + value;
+				     }
+				     else
+				     {
+				        optiondrop_select_values = optiondrop_select_values + ',' + value;
+				     }
+		    	});
+		    	
+		    	//옵션드롭 추가 
+		    	if($scope.optionUse=='y' && $scope.optionDrop.o_field_name_txt!=null && $scope.optionDrop.o_value!=null) 
 				{
-					return true;
+					$scope.optionDrop.o_select_box = optiondrop_select_values;
+					optionfactory.save({option:$scope.optionDrop, type:'drop'});
 				}
-			})
-			$scope.option.o_order = result.length+1;
-		})
-	}
 
+				//옵션 기본추가
+				if($scope.option.o_field_name_txt!=null && $scope.option.o_value!=null) //제목과 값이 모두 적혀있을경우
+				{
+					
+					optionfactory.save({option:$scope.option, type:'insert'});	
+				}
+				alert("등록 되었습니다");
+				
+			}
 
+		    $scope.optionState = function() //옵션 사용여부
+		    {
+		    	if($scope.optionUse=='y')
+		    	{
+		    		optionDropNumber($scope.optionInsertList.p_code); //옵션드롭넘버
+		    		$("#optionDrop").css("display","");
 
-	$scope.add = function()
-	{	
+		    	}
+		    	else
+		    	{
+		    		$("#optionDrop").css("display","none");
+		    	}
+		    }
 
-		
-		/*var input_container = $("<md-input-container flex='30'>");
-		var input_tag = $("<input>");
-		input_tag.addClass('option_number');
-		input_tag.attr("type","text");
-		input_tag.attr("aria-label", " ");
-		input_container.append(input_tag);
-		
-		$(".add_input").append(input_container);
-		$compile(input_container)($scope);*/
-	}
+		    
 
-	$scope.cancel = function() 
-	{
-    	$mdDialog.cancel();
-    }
-
-    $scope.insert = function()
-    {
-    	var option_select_values = '';
-    	$(".option_number").each(function(index)
-    	{
-	    	 if(option_select_values == '')
-		     {
-		        option_select_values = option_select_values + $(this).val();
-		     }
-		     else
-		     {
-		        option_select_values = option_select_values + ',' + $(this).val();
-		     }
-	    }) 
-    	if($scope.option.o_field_name_txt!=null && $scope.option.o_value!=null) //제목과 값이 모두 적혀있을경우
-		{
-			$scope.option.o_select_box = option_select_values;
-			optionfactory.save({option:$scope.option, type:'drop'});
-			alert("등록 되었습니다");
-			$mdDialog.hide();	
+			function optionDropNumber(p_code) //현재 옵션 개수 가져오기
+			{
+				optionfactory.query({id:p_code}).$promise.then(function(result)
+				{
+					result = $.grep(result, function(val)
+					{
+						if(val.o_type=='multiple')
+						{
+							return true;
+						}
+					})
+					$scope.optionDrop.o_order = result.length+1;
+				})
+			}
 		}
+	}
+});
 
-    }
-})
 
 //옵션 드롭 수정
 mall.controller("OptionDropEditController", function($scope, $mdDialog, optionfactory, $compile)
@@ -1510,7 +1526,7 @@ mall.directive('pageCategory', function(configService, categoryfactory){
 		templateUrl: configService.shopPublicUrl+'template/admin/category/pagecategory.html',
 		link: function(scope, element, attr){	
 			
-			scope.url={
+			scope.position={
 				left_category:"",
 				center_category:"",
 				right_category:""
@@ -1552,7 +1568,7 @@ mall.directive('pageCategory', function(configService, categoryfactory){
 				scope.bottomCategory.c_name="";
 				scope.bottomCategory.c_url="";
 				scope.bottomCategory.c_description="";
-				scope.bottomCategory.c_category="";
+				scope.bottomCategory.c_position="";
 				scope.bottomCategory.c_status="y";
 			}
 
@@ -1579,10 +1595,10 @@ mall.directive('pageCategory', function(configService, categoryfactory){
 			scope.leftClick = function(event, category_parent, category_name, category_group, category_url, category_description, category_status)
 			{	
 				scope.bottomCategory.c_idx = category_parent; //분류 고유번호	
-				scope.url.left_category = category_name; //현재 분류
+				scope.position.left_category = category_name; //현재 분류
 				scope.bottomCategory.c_name = category_name; //분류 명
 				scope.bottomCategory.c_url = category_url; //분류url
-				scope.bottomCategory.c_category = scope.url.left_category; //분류 카테고리
+				scope.bottomCategory.c_position = scope.position.left_category; //분류 카테고리
 				scope.bottomCategory.c_description = category_description; //분류 설명
 				scope.bottomCategory.c_status = category_status;
 				
@@ -1605,10 +1621,10 @@ mall.directive('pageCategory', function(configService, categoryfactory){
 			scope.centerClick = function(event, category_parent, category_name, category_group, category_url, category_description, category_status)
 			{
 				scope.bottomCategory.c_idx = category_parent; 
-				scope.url.center_category = scope.url.left_category+"/"+category_name;
+				scope.position.center_category = scope.position.left_category+"/"+category_name;
 				scope.bottomCategory.c_name = category_name;
 				scope.bottomCategory.c_url = category_url; 
-				scope.bottomCategory.c_category = scope.url.center_category;
+				scope.bottomCategory.c_position = scope.position.center_category;
 				scope.bottomCategory.c_description = category_description;
 				scope.bottomCategory.c_status = category_status;
 				
@@ -1627,10 +1643,10 @@ mall.directive('pageCategory', function(configService, categoryfactory){
 			scope.rightClick = function(event, category_parent, category_name, category_group, category_url, category_description, category_status)
 			{
 				scope.bottomCategory.c_idx = category_parent;
-				scope.url.right_category = scope.url.center_category+"/"+category_name;
+				scope.position.right_category = scope.position.center_category+"/"+category_name;
 				scope.bottomCategory.c_name = category_name;
 				scope.bottomCategory.c_url = configService.shopPublicUrl+category_parent;
-				scope.bottomCategory.c_category = scope.url.right_category;
+				scope.bottomCategory.c_position = scope.position.right_category;
 				scope.bottomCategory.c_description = category_description;
 				scope.bottomCategory.c_status = category_status;
 				
@@ -1647,6 +1663,7 @@ mall.directive('pageCategory', function(configService, categoryfactory){
 			//대분류 추가
 			scope.left_categoryInsert = function()
 			{
+				scope.left_categoryInput.c_position = scope.left_categoryInput.c_name;//현재분류
 				if(scope.left_categoryInput.c_name!="")
 				{
 					categoryfactory.save({category:scope.left_categoryInput, category_status:"left", category_url:configService.shopPublicUrl});
@@ -1670,7 +1687,8 @@ mall.directive('pageCategory', function(configService, categoryfactory){
 			//중분류 추가
 			scope.center_categoryInsert = function()
 			{
-
+				scope.center_categoryInput.c_position = scope.position.left_category+"/"+scope.center_categoryInput.c_name; //현재분류
+				
 				if(scope.center_categoryInput.c_parent!=null)
 				{
 					if(scope.center_categoryInput.c_name!="")
@@ -1696,7 +1714,7 @@ mall.directive('pageCategory', function(configService, categoryfactory){
 			//소분류 추가
 			scope.right_categoryInsert = function() 
 			{
-				
+				scope.right_categoryInput.c_position = scope.position.center_category+"/"+scope.right_categoryInput.c_name;
 				if(scope.right_categoryInput.c_parent!=null)
 				{	
 					if(scope.right_categoryInput.c_name!="") //이름을 입력했을때
@@ -1717,7 +1735,7 @@ mall.directive('pageCategory', function(configService, categoryfactory){
 				else
 				{
 					alert("중분류 클릭하세요.");
-				}	
+				}
 			}
 
 			//카테고리 삭제
